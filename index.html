@@ -1,371 +1,257 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mia Aesthetics — Institut de beauté</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Mia Aesthetics — Prise de rendez-vous</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rose:#C9889E;--rose-light:#F2E8ED;--rose-mid:#E0B8C8;--rose-dark:#9E6075;
+  --gray-50:#FAFAF9;--gray-100:#F7F6F5;--gray-200:#EDECEA;--gray-300:#D8D5D2;
+  --gray-500:#9A9590;--gray-700:#5C5855;--gray-900:#1E1C1B;--white:#fff;
+  --font-d:'Cormorant Garamond',serif;--font-b:'DM Sans',sans-serif;
 
-  :root {
-    --rose: #C9889E;
-    --rose-light: #F2E8ED;
-    --rose-mid: #E0B8C8;
-    --rose-dark: #9E6075;
-    --mauve: #8B6B7A;
-    --gray-100: #F7F6F5;
-    --gray-200: #EDECEA;
-    --gray-300: #D8D5D2;
-    --gray-500: #9A9590;
-    --gray-700: #5C5855;
-    --gray-900: #1E1C1B;
-    --white: #FFFFFF;
-    --font-display: 'Cormorant Garamond', Georgia, serif;
-    --font-body: 'DM Sans', sans-serif;
-  }
+  /* ════════════════════════════════════════════════════
+     🔧 CONFIGURATION — modifie uniquement cette section
+     ════════════════════════════════════════════════════ */
+  --slot-morning-start:10;  /* 10h */
+  --slot-morning-end:13;    /* jusqu'à 13h (dernier créneau 13h) */
+  --slot-afternoon-start:14;/* 14h */
+  --slot-afternoon-end:19;  /* jusqu'à 19h (dernier créneau 19h) */
+}
 
-  html { scroll-behavior: smooth; }
-  body { font-family: var(--font-body); background: var(--white); color: var(--gray-900); overflow-x: hidden; }
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--white);color:var(--gray-900);overflow-x:hidden}
 
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 4rem; height: 72px;
-    background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--gray-200);
-  }
-  .nav-logo { font-family: var(--font-display); font-size: 22px; font-weight: 400; letter-spacing: 0.08em; color: var(--gray-900); text-decoration: none; }
-  .nav-logo span { color: var(--rose); font-style: italic; }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a { font-size: 13px; font-weight: 400; letter-spacing: 0.05em; color: var(--gray-700); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--rose); }
-  .nav-cta { padding: 10px 24px; background: var(--rose); color: white; border: none; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; text-transform: uppercase; transition: background 0.2s; text-decoration: none; }
-  .nav-cta:hover { background: var(--rose-dark); }
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 4rem;height:68px;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-200)}
+.nav-logo{font-family:var(--font-d);font-size:20px;font-weight:400;letter-spacing:.08em;color:var(--gray-900);text-decoration:none}
+.nav-logo span{color:var(--rose);font-style:italic}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:12px;font-weight:400;letter-spacing:.06em;color:var(--gray-700);text-decoration:none;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--rose)}
+@media(max-width:700px){nav{padding:0 1.2rem}.nav-links{display:none}}
 
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
-    padding-top: 72px;
-  }
-  .hero-left {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 6rem 4rem 6rem 5rem;
-    background: var(--white);
-  }
-  .hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
-  .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--rose); }
-  .hero-title { font-family: var(--font-display); font-size: clamp(44px, 5vw, 72px); font-weight: 300; line-height: 1.08; color: var(--gray-900); margin-bottom: 1.5rem; }
-  .hero-title em { font-style: italic; color: var(--rose); }
-  .hero-desc { font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--gray-700); max-width: 420px; margin-bottom: 2.5rem; }
-  .hero-actions { display: flex; gap: 16px; align-items: center; }
-  .btn-primary { padding: 14px 32px; background: var(--rose); color: white; border: none; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; text-decoration: none; display: inline-block; }
-  .btn-primary:hover { background: var(--rose-dark); }
-  .btn-ghost { padding: 14px 32px; background: transparent; color: var(--gray-700); border: 1px solid var(--gray-300); border-radius: 2px; font-size: 13px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
-  .btn-ghost:hover { border-color: var(--rose); color: var(--rose); }
-  .hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--gray-200); }
-  .stat-num { font-family: var(--font-display); font-size: 36px; font-weight: 400; color: var(--gray-900); }
-  .stat-label { font-size: 11px; color: var(--gray-500); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px; }
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:68px;background:var(--gray-50)}
+.hero-inner{max-width:900px;margin:0 auto;padding:5rem 2rem;text-align:center}
+.hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:12px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:24px;height:1px;background:var(--rose)}
+.hero-title{font-family:var(--font-d);font-size:clamp(42px,6vw,78px);font-weight:300;line-height:1.08;color:var(--gray-900);margin-bottom:1.5rem}
+.hero-title em{font-style:italic;color:var(--rose)}
+.hero-desc{font-size:15px;font-weight:300;line-height:1.9;color:var(--gray-700);max-width:500px;margin:0 auto 2.5rem}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-primary{padding:14px 34px;background:var(--rose);color:white;border:none;border-radius:2px;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;text-decoration:none;display:inline-block;font-family:var(--font-b)}
+.btn-primary:hover{background:var(--rose-dark)}
+.btn-ghost{padding:14px 34px;background:transparent;color:var(--gray-700);border:1px solid var(--gray-300);border-radius:2px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--gray-200)}
+.stat-num{font-family:var(--font-d);font-size:38px;font-weight:400;color:var(--gray-900)}
+.stat-num span{color:var(--rose)}
+.stat-label{font-size:11px;color:var(--gray-500);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
 
-  .hero-right {
-    position: relative; overflow: hidden;
-    background: var(--gray-100);
-  }
-  .hero-pattern {
-    position: absolute; inset: 0;
-    background:
-      repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(201,136,158,0.04) 30px, rgba(201,136,158,0.04) 31px),
-      repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(201,136,158,0.04) 30px, rgba(201,136,158,0.04) 31px);
-  }
-  .hero-visual {
-    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  }
-  .hero-circle-outer {
-    width: 380px; height: 380px; border-radius: 50%;
-    border: 1px solid var(--rose-mid); display: flex; align-items: center; justify-content: center;
-    position: relative;
-    animation: slowspin 30s linear infinite;
-  }
-  .hero-circle-inner {
-    width: 260px; height: 260px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--rose-light), var(--white));
-    border: 1px solid var(--rose-mid);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 8px;
-    animation: slowspin 30s linear infinite reverse;
-  }
-  .hero-monogram { font-family: var(--font-display); font-size: 64px; font-weight: 300; color: var(--rose); font-style: italic; line-height: 1; }
-  .hero-circle-inner p { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray-500); }
-  .orbit-dot {
-    position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--rose);
-  }
-  .orbit-dot:nth-child(1) { top: -4px; left: 50%; transform: translateX(-50%); }
-  .orbit-dot:nth-child(2) { bottom: -4px; left: 50%; transform: translateX(-50%); }
-  .orbit-dot:nth-child(3) { left: -4px; top: 50%; transform: translateY(-50%); }
-  .orbit-dot:nth-child(4) { right: -4px; top: 50%; transform: translateY(-50%); }
-  @keyframes slowspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  .hero-badge {
-    position: absolute; bottom: 3rem; right: 3rem;
-    background: white; border: 1px solid var(--gray-200);
-    padding: 14px 20px; border-radius: 4px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: #7BC47B; flex-shrink: 0; }
-  .badge-text { font-size: 12px; color: var(--gray-700); font-weight: 400; }
-  .badge-text strong { color: var(--gray-900); font-weight: 500; display: block; }
+/* ── SECTIONS ── */
+.section{padding:7rem 2rem}
+.section-alt{background:var(--gray-100)}
+.section-header{text-align:center;margin-bottom:4rem}
+.section-eyebrow{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:1rem}
+.section-title{font-family:var(--font-d);font-size:clamp(30px,4vw,50px);font-weight:300;color:var(--gray-900);line-height:1.15}
+.section-title em{font-style:italic;color:var(--rose)}
+.divider{width:36px;height:1px;background:var(--rose);margin:1.25rem auto 0}
 
-  /* ── SECTION TITLES ── */
-  .section { padding: 7rem 5rem; }
-  .section-alt { background: var(--gray-100); }
-  .section-header { text-align: center; margin-bottom: 4rem; }
-  .section-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose); margin-bottom: 1rem; }
-  .section-title { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); font-weight: 300; color: var(--gray-900); line-height: 1.15; }
-  .section-title em { font-style: italic; color: var(--rose); }
-  .section-subtitle { font-size: 15px; color: var(--gray-500); margin-top: 1rem; font-weight: 300; max-width: 500px; margin-inline: auto; line-height: 1.7; }
-  .divider { width: 40px; height: 1px; background: var(--rose); margin: 1.5rem auto 0; }
+/* ── SERVICES GRID ── */
+.services-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--gray-200);border:1px solid var(--gray-200);max-width:1100px;margin:0 auto}
+.svc-card{background:var(--white);padding:2.5rem 1.75rem;display:flex;flex-direction:column;gap:.8rem;transition:background .2s;cursor:default}
+.svc-card:hover{background:var(--rose-light)}
+.svc-icon{width:44px;height:44px;border-radius:50%;background:var(--rose-light);display:flex;align-items:center;justify-content:center}
+.svc-card:hover .svc-icon{background:white}
+.svc-name{font-family:var(--font-d);font-size:19px;font-weight:400;color:var(--gray-900);line-height:1.2}
+.svc-desc{font-size:12px;color:var(--gray-500);line-height:1.7;font-weight:300}
+.svc-duration{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);font-weight:500;margin-top:auto}
+@media(max-width:900px){.services-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.services-grid{grid-template-columns:1fr}}
 
-  /* ── PRESTATIONS ── */
-  .services-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200); }
-  .service-card {
-    background: var(--white); padding: 2.5rem 2rem;
-    display: flex; flex-direction: column; gap: 1rem;
-    transition: background 0.2s;
-    cursor: default;
-  }
-  .service-card:hover { background: var(--rose-light); }
-  .service-icon-wrap {
-    width: 48px; height: 48px; border-radius: 50%;
-    background: var(--rose-light); display: flex; align-items: center; justify-content: center;
-  }
-  .service-card:hover .service-icon-wrap { background: white; }
-  .service-name { font-family: var(--font-display); font-size: 20px; font-weight: 400; color: var(--gray-900); line-height: 1.2; }
-  .service-desc { font-size: 13px; color: var(--gray-500); line-height: 1.7; font-weight: 300; }
-  .service-duration { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose); font-weight: 500; margin-top: auto; }
+/* ═══════════════════════════════════════════════════
+   SYSTÈME DE RÉSERVATION
+═══════════════════════════════════════════════════ */
+.booking-wrap{max-width:1050px;margin:0 auto}
 
-  /* ── TARIFS ── */
-  .tarifs-wrap { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 3px; }
-  .tarif-group { margin-bottom: 2rem; }
-  .tarif-group-title { font-family: var(--font-display); font-size: 24px; font-weight: 400; font-style: italic; color: var(--rose); margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--gray-200); }
-  .tarif-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 0; border-bottom: 1px solid var(--gray-200);
-    transition: padding 0.2s;
-  }
-  .tarif-row:hover { padding-left: 8px; }
-  .tarif-info { display: flex; flex-direction: column; gap: 3px; }
-  .tarif-name { font-size: 15px; font-weight: 400; color: var(--gray-900); }
-  .tarif-detail { font-size: 12px; color: var(--gray-500); font-weight: 300; }
-  .tarif-right { display: flex; align-items: center; gap: 1.5rem; flex-shrink: 0; }
-  .tarif-duration { font-size: 12px; color: var(--gray-500); letter-spacing: 0.05em; }
-  .tarif-price { font-family: var(--font-display); font-size: 22px; font-weight: 400; color: var(--rose); min-width: 70px; text-align: right; }
+/* Semaine navigation */
+.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.week-label{font-family:var(--font-d);font-size:22px;font-weight:400;color:var(--gray-900)}
+.week-label em{font-style:italic;color:var(--rose)}
+.week-arrows{display:flex;gap:6px}
+.week-arrow{width:34px;height:34px;border:1px solid var(--gray-300);border-radius:2px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gray-500);font-size:18px;transition:all .15s;font-family:var(--font-b)}
+.week-arrow:hover{border-color:var(--rose);color:var(--rose)}
+.week-arrow:disabled{opacity:.3;cursor:not-allowed}
 
-  /* ── BOOKING ── */
-  .booking-container { max-width: 960px; margin: 0 auto; }
-  .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--gray-200); border: 1px solid var(--gray-200); }
-  .booking-panel { background: var(--white); padding: 2.5rem; }
-  .panel-title { font-family: var(--font-display); font-size: 22px; font-weight: 400; margin-bottom: 1.5rem; color: var(--gray-900); }
-  .panel-title em { font-style: italic; color: var(--rose); }
+/* Grille semaine */
+.week-grid{display:grid;grid-template-columns:60px repeat(6,1fr);gap:1px;background:var(--gray-200);border:1px solid var(--gray-200);border-radius:2px;overflow:hidden}
 
-  /* service picker */
-  .svc-pick { display: flex; flex-direction: column; gap: 8px; margin-bottom: 2rem; }
-  .svc-opt {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 16px; border: 1px solid var(--gray-200); cursor: pointer;
-    transition: border-color 0.15s, background 0.15s; border-radius: 2px;
-  }
-  .svc-opt:hover { border-color: var(--rose-mid); }
-  .svc-opt.active { border-color: var(--rose); background: var(--rose-light); }
-  .svc-opt-name { font-size: 14px; font-weight: 400; color: var(--gray-900); }
-  .svc-opt-meta { font-size: 12px; color: var(--gray-500); }
-  .svc-opt-price { font-family: var(--font-display); font-size: 18px; color: var(--rose); font-weight: 400; }
+/* En-têtes jours */
+.day-header{background:var(--gray-900);padding:12px 8px;text-align:center}
+.day-header.corner{background:var(--gray-900)}
+.day-name{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.day-date{font-family:var(--font-d);font-size:20px;font-weight:400;color:white;margin-top:2px}
+.day-header.today .day-date{color:var(--rose)}
+.day-header.today .day-name{color:var(--rose-mid)}
 
-  /* calendar */
-  .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
-  .cal-month-lbl { font-family: var(--font-display); font-size: 18px; font-weight: 400; color: var(--gray-900); }
-  .cal-arrows { display: flex; gap: 4px; }
-  .cal-arrows button { width: 30px; height: 30px; border: 1px solid var(--gray-200); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--gray-500); font-size: 16px; border-radius: 2px; transition: all 0.15s; }
-  .cal-arrows button:hover { border-color: var(--rose); color: var(--rose); }
-  .cal-g { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
-  .cal-dn { font-size: 10px; color: var(--gray-500); text-align: center; padding: 4px 0; letter-spacing: 0.08em; text-transform: uppercase; }
-  .cal-d {
-    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-    font-size: 13px; cursor: pointer; border-radius: 2px; font-weight: 300;
-    color: var(--gray-700); transition: all 0.12s; position: relative;
-  }
-  .cal-d.other { opacity: 0.25; pointer-events: none; }
-  .cal-d.off { color: var(--gray-300); pointer-events: none; text-decoration: line-through; }
-  .cal-d.avail:hover { background: var(--rose-light); color: var(--rose); }
-  .cal-d.sel { background: var(--rose); color: white; }
-  .cal-d.tod::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 3px; height: 3px; border-radius: 50%; background: var(--rose); }
-  .cal-d.sel.tod::after { background: white; }
+/* Cellules heures */
+.hour-label{background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gray-500);font-weight:400;letter-spacing:.04em;border-bottom:1px solid var(--gray-200)}
 
-  /* slots */
-  .slots-section { margin-top: 1.5rem; }
-  .slots-date-label { font-size: 13px; color: var(--gray-500); margin-bottom: 10px; font-weight: 300; }
-  .slots-g { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
-  .slot-btn {
-    padding: 9px 4px; text-align: center; font-size: 13px; font-weight: 400;
-    border: 1px solid var(--gray-200); border-radius: 2px; cursor: pointer;
-    transition: all 0.12s; background: white; color: var(--gray-900);
-  }
-  .slot-btn:hover { border-color: var(--rose); color: var(--rose); }
-  .slot-btn.sel-slot { background: var(--rose); border-color: var(--rose); color: white; }
-  .slot-btn.taken { background: var(--gray-100); color: var(--gray-300); cursor: not-allowed; }
-  .slot-btn.taken span { text-decoration: line-through; }
+/* Séparateur pause déjeuner */
+.break-row{grid-column:1/-1;background:var(--gray-200);height:28px;display:flex;align-items:center;justify-content:center}
+.break-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500)}
 
-  /* form */
-  .form-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field { display: flex; flex-direction: column; gap: 5px; }
-  .field.span2 { grid-column: 1/-1; }
-  .field label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-500); font-weight: 500; }
-  .field input, .field textarea, .field select {
-    padding: 11px 14px; border: 1px solid var(--gray-200); border-radius: 2px;
-    font-size: 14px; font-family: var(--font-body); color: var(--gray-900);
-    background: white; width: 100%; transition: border-color 0.15s;
-  }
-  .field input:focus, .field textarea:focus { outline: none; border-color: var(--rose); }
-  .field textarea { min-height: 80px; resize: vertical; }
+/* Slots */
+.slot-cell{background:var(--white);padding:4px;border-bottom:1px solid var(--gray-200)}
+.slot-btn{width:100%;height:100%;min-height:44px;border:1px solid var(--gray-200);border-radius:2px;background:white;cursor:pointer;font-size:12px;font-weight:400;color:var(--gray-700);transition:all .12s;display:flex;align-items:center;justify-content:center;font-family:var(--font-b);position:relative}
+.slot-btn:hover{border-color:var(--rose);color:var(--rose);background:var(--rose-light)}
+.slot-btn.taken{background:var(--gray-100);color:var(--gray-300);cursor:not-allowed;border-color:var(--gray-200)}
+.slot-btn.taken::after{content:'';position:absolute;top:50%;left:10%;right:10%;height:1px;background:var(--gray-300)}
+.slot-btn.selected{background:var(--rose);border-color:var(--rose);color:white}
+.slot-btn.loading{opacity:.5;pointer-events:none}
+.slot-btn.past{background:var(--gray-50);color:var(--gray-300);cursor:not-allowed;border-color:transparent}
 
-  /* recap */
-  .recap { background: var(--gray-100); padding: 1.5rem; margin-top: 1.5rem; border-radius: 2px; }
-  .recap-row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; }
-  .recap-row .lbl { color: var(--gray-500); font-weight: 300; }
-  .recap-row .val { color: var(--gray-900); font-weight: 400; }
-  .recap-total { border-top: 1px solid var(--gray-300); margin-top: 6px; padding-top: 10px; }
-  .recap-total .val { font-family: var(--font-display); font-size: 22px; color: var(--rose); }
-  .book-btn {
-    width: 100%; margin-top: 1.5rem; padding: 16px;
-    background: var(--rose); color: white; border: none; border-radius: 2px;
-    font-size: 13px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-    cursor: pointer; transition: background 0.2s; font-family: var(--font-body);
-  }
-  .book-btn:hover { background: var(--rose-dark); }
-  .book-note { font-size: 11px; color: var(--gray-500); text-align: center; margin-top: 10px; line-height: 1.6; }
+/* Légende */
+.legend{display:flex;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-500)}
+.legend-dot{width:10px;height:10px;border-radius:2px}
+.legend-dot.avail{background:white;border:1px solid var(--gray-300)}
+.legend-dot.taken{background:var(--gray-200)}
+.legend-dot.sel{background:var(--rose)}
 
-  /* ── ABOUT ── */
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; max-width: 1000px; margin: 0 auto; }
-  .about-visual { position: relative; }
-  .about-frame {
-    width: 100%; aspect-ratio: 3/4; background: var(--rose-light);
-    border-radius: 2px; display: flex; align-items: center; justify-content: center;
-    position: relative; overflow: hidden;
-  }
-  .about-frame-inner {
-    width: 80%; height: 80%; border: 1px solid var(--rose-mid); border-radius: 2px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-  }
-  .about-initial { font-family: var(--font-display); font-size: 72px; font-weight: 300; font-style: italic; color: var(--rose); line-height: 1; }
-  .about-frame-inner p { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mauve); }
-  .about-badge-float {
-    position: absolute; bottom: -1.5rem; right: -1.5rem;
-    background: white; border: 1px solid var(--gray-200);
-    padding: 1rem 1.25rem; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-  }
-  .about-badge-num { font-family: var(--font-display); font-size: 32px; font-weight: 300; color: var(--rose); }
-  .about-badge-lbl { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray-500); }
-  .about-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose); margin-bottom: 1rem; }
-  .about-title { font-family: var(--font-display); font-size: 42px; font-weight: 300; color: var(--gray-900); line-height: 1.15; margin-bottom: 1.5rem; }
-  .about-title em { font-style: italic; color: var(--rose); }
-  .about-body { font-size: 15px; color: var(--gray-700); line-height: 1.9; font-weight: 300; margin-bottom: 1.5rem; }
-  .about-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-  .pill { padding: 6px 16px; border: 1px solid var(--rose-mid); font-size: 12px; color: var(--mauve); border-radius: 20px; letter-spacing: 0.04em; }
+/* Modal confirmation */
+.modal-overlay{position:fixed;inset:0;background:rgba(30,28,27,.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:white;border-radius:2px;padding:0;width:100%;max-width:480px;overflow:hidden;transform:translateY(20px);transition:transform .2s}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-header{background:var(--gray-900);padding:24px 28px;display:flex;justify-content:space-between;align-items:center}
+.modal-title{font-family:var(--font-d);font-size:22px;font-weight:400;color:white}
+.modal-title em{font-style:italic;color:var(--rose)}
+.modal-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:22px;cursor:pointer;line-height:1;padding:0 4px}
+.modal-close:hover{color:white}
+.modal-body{padding:24px 28px}
+.modal-recap{background:var(--gray-100);padding:14px 18px;border-radius:2px;margin-bottom:20px;display:flex;flex-direction:column;gap:7px}
+.modal-recap-row{display:flex;justify-content:space-between;font-size:13px}
+.modal-recap-lbl{color:var(--gray-500)}
+.modal-recap-val{color:var(--gray-900);font-weight:500}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.form-field{display:flex;flex-direction:column;gap:5px}
+.form-field.full{grid-column:1/-1}
+.form-field label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);font-weight:500}
+.form-field input,.form-field select,.form-field textarea{padding:10px 14px;border:1px solid var(--gray-200);border-radius:2px;font-size:13px;font-family:var(--font-b);color:var(--gray-900);background:white;width:100%;transition:border-color .15s}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{outline:none;border-color:var(--rose)}
+.form-field textarea{min-height:70px;resize:vertical}
+.modal-actions{display:flex;gap:10px}
+.modal-confirm{flex:1;padding:13px;background:var(--rose);color:white;border:none;border-radius:2px;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:var(--font-b);transition:background .2s}
+.modal-confirm:hover{background:var(--rose-dark)}
+.modal-confirm:disabled{background:var(--gray-300);cursor:not-allowed}
+.modal-cancel-btn{padding:13px 20px;background:transparent;border:1px solid var(--gray-300);color:var(--gray-500);border-radius:2px;font-size:13px;cursor:pointer;font-family:var(--font-b)}
 
-  /* ── FOOTER ── */
-  footer { background: var(--gray-900); color: white; padding: 4rem 5rem 2rem; }
-  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
-  .footer-logo { font-family: var(--font-display); font-size: 24px; font-weight: 300; color: white; margin-bottom: 1rem; }
-  .footer-logo span { color: var(--rose); font-style: italic; }
-  .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.4); font-weight: 300; line-height: 1.7; max-width: 260px; }
-  .footer-col-title { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rose); margin-bottom: 1.25rem; font-weight: 500; }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .footer-col ul li { font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 300; cursor: pointer; transition: color 0.2s; }
-  .footer-col ul li:hover { color: white; }
-  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
-  .footer-rose { color: var(--rose); }
+/* Toast notification */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--gray-900);color:white;padding:14px 24px;border-radius:2px;font-size:13px;z-index:300;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
+.toast.success{background:#1D9E75}
+.toast.error{background:#E24B4A}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    nav { padding: 0 1.5rem; }
-    .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; }
-    .hero-right { display: none; }
-    .hero-left { padding: 4rem 1.5rem; }
-    .section { padding: 4rem 1.5rem; }
-    .services-grid { grid-template-columns: 1fr 1fr; }
-    .booking-grid { grid-template-columns: 1fr; }
-    .about-grid { grid-template-columns: 1fr; }
-    .about-visual { display: none; }
-    .footer-grid { grid-template-columns: 1fr; }
-    footer { padding: 3rem 1.5rem 1.5rem; }
-  }
+/* Loading spinner */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Soin selector dans modal */
+.svc-select{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.svc-radio{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--gray-200);border-radius:2px;cursor:pointer;transition:all .12s}
+.svc-radio:hover{border-color:var(--rose-mid)}
+.svc-radio.active{border-color:var(--rose);background:var(--rose-light)}
+.svc-radio-left{display:flex;align-items:center;gap:8px}
+.svc-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--gray-300);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.svc-radio.active .svc-dot{border-color:var(--rose)}
+.svc-dot-inner{width:7px;height:7px;border-radius:50%;background:var(--rose);display:none}
+.svc-radio.active .svc-dot-inner{display:block}
+.svc-radio-name{font-size:13px;font-weight:400;color:var(--gray-900)}
+.svc-radio-meta{font-size:11px;color:var(--gray-500)}
+.svc-radio-price{font-family:var(--font-d);font-size:17px;color:var(--rose);font-weight:400}
+
+/* ── FOOTER ── */
+footer{background:var(--gray-900);color:white;padding:4rem 2rem 2rem}
+.footer-inner{max-width:1050px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-logo{font-family:var(--font-d);font-size:22px;font-weight:300;color:white;margin-bottom:.75rem}
+.footer-logo span{color:var(--rose);font-style:italic}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,.35);font-weight:300;line-height:1.7;max-width:240px}
+.footer-col-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);margin-bottom:1rem;font-weight:500}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.footer-col ul li{font-size:13px;color:rgba(255,255,255,.4);font-weight:300}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:11px;color:rgba(255,255,255,.2)}
+@media(max-width:700px){.footer-grid{grid-template-columns:1fr}}
+
+/* Setup banner */
+.setup-banner{background:#FAEEDA;border:1px solid #FAC775;border-radius:4px;padding:14px 20px;margin-bottom:1.5rem;font-size:13px;color:#633806;line-height:1.7}
+.setup-banner strong{font-weight:500;color:#412402}
+.setup-banner code{background:rgba(0,0,0,.08);padding:1px 6px;border-radius:3px;font-family:monospace;font-size:12px}
 </style>
 </head>
 <body>
+
+<!-- ════════════════════════════
+     CONFIGURATION SCRIPT
+     Remplace SCRIPT_URL par l'URL
+     de ton Google Apps Script
+════════════════════════════ -->
+<script>
+const CONFIG = {
+  // 🔧 Colle ici l'URL de ton Google Apps Script après déploiement
+  SCRIPT_URL: 'COLLE_TON_URL_ICI',
+
+  // Jours travaillés (0=dim, 1=lun, 2=mar, 3=mer, 4=jeu, 5=ven, 6=sam)
+  WORK_DAYS: [1, 2, 3, 4, 5, 6],
+
+  // Créneaux matin : 10h, 11h, 12h, 13h
+  MORNING_SLOTS: ['10:00','11:00','12:00','13:00'],
+
+  // Créneaux après-midi : 14h, 15h, 16h, 17h, 18h, 19h
+  AFTERNOON_SLOTS: ['14:00','15:00','16:00','17:00','18:00','19:00'],
+
+  SERVICES: [
+    {id:'prp-cheveux',    name:'PRP Cheveux',          duration:'60 min', price:'180 €'},
+    {id:'micro-needling', name:'Micro-needling',        duration:'60 min', price:'120 €'},
+    {id:'mesotherapie',   name:'Mésothérapie',          duration:'45 min', price:'95 €'},
+    {id:'soin-hydratant', name:'Soin hydratant',        duration:'60 min', price:'75 €'},
+    {id:'led',            name:'Luminothérapie LED',    duration:'30 min', price:'45 €'},
+  ]
+};
+</script>
 
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">Mia <span>Aesthetics</span></a>
   <ul class="nav-links">
     <li><a href="#prestations">Prestations</a></li>
-    <li><a href="#tarifs">Tarifs</a></li>
+    <li><a href="#rdv">Rendez-vous</a></li>
     <li><a href="#apropos">À propos</a></li>
-    <li><a href="#rdv">Contact</a></li>
   </ul>
-  <a href="#rdv" class="nav-cta">Prendre RDV</a>
+  <a href="#rdv" class="btn-primary" style="font-size:12px;padding:10px 22px">Prendre RDV</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-left">
+  <div class="hero-inner">
     <div class="hero-eyebrow">Institut de beauté médicale</div>
-    <h1 class="hero-title">
-      L'excellence<br>du soin, <em>au<br>naturel</em>
-    </h1>
-    <p class="hero-desc">
-      Des protocoles de médecine esthétique personnalisés pour révéler votre beauté naturelle. Techniques de pointe, résultats durables.
-    </p>
+    <h1 class="hero-title">L'excellence du soin,<br><em>au naturel</em></h1>
+    <p class="hero-desc">Des protocoles de médecine esthétique personnalisés — PRP, micro-needling, mésothérapie — pour révéler votre beauté naturelle.</p>
     <div class="hero-actions">
       <a href="#rdv" class="btn-primary">Prendre rendez-vous</a>
       <a href="#prestations" class="btn-ghost">Nos soins</a>
     </div>
     <div class="hero-stats">
-      <div>
-        <div class="stat-num">500<span style="color:var(--rose)">+</span></div>
-        <div class="stat-label">Clientes satisfaites</div>
-      </div>
-      <div>
-        <div class="stat-num">5</div>
-        <div class="stat-label">Soins spécialisés</div>
-      </div>
-      <div>
-        <div class="stat-num">8<span style="color:var(--rose)">+</span></div>
-        <div class="stat-label">Ans d'expérience</div>
-      </div>
-    </div>
-  </div>
-  <div class="hero-right">
-    <div class="hero-pattern"></div>
-    <div class="hero-visual">
-      <div class="hero-circle-outer">
-        <div class="orbit-dot"></div>
-        <div class="orbit-dot"></div>
-        <div class="orbit-dot"></div>
-        <div class="orbit-dot"></div>
-        <div class="hero-circle-inner">
-          <div class="hero-monogram">M</div>
-          <p>Mia Aesthetics</p>
-        </div>
-      </div>
-    </div>
-    <div class="hero-badge">
-      <div class="badge-dot"></div>
-      <div class="badge-text">
-        <strong>Disponible aujourd'hui</strong>
-        Prochains créneaux dès 10h00
-      </div>
+      <div><div class="stat-num">500<span>+</span></div><div class="stat-label">Clientes satisfaites</div></div>
+      <div><div class="stat-num">5</div><div class="stat-label">Soins spécialisés</div></div>
+      <div><div class="stat-num">8<span>+</span></div><div class="stat-label">Ans d'expérience</div></div>
     </div>
   </div>
 </section>
@@ -376,321 +262,452 @@
     <div class="section-eyebrow">Nos soins</div>
     <h2 class="section-title">Des <em>protocoles</em> sur mesure</h2>
     <div class="divider"></div>
-    <p class="section-subtitle">Chaque soin est adapté à votre peau et vos objectifs, pour des résultats visibles et durables.</p>
   </div>
   <div class="services-grid">
-    <div class="service-card">
-      <div class="service-icon-wrap">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-      </div>
-      <div class="service-name">PRP Cheveux</div>
-      <div class="service-desc">Injection de plasma riche en plaquettes pour stimuler la repousse et renforcer le cheveu fragilisé.</div>
-      <div class="service-duration">45 – 60 min</div>
+    <div class="svc-card">
+      <div class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+      <div class="svc-name">PRP Cheveux</div>
+      <div class="svc-desc">Plasma riche en plaquettes pour stimuler la repousse et renforcer le cheveu fragilisé.</div>
+      <div class="svc-duration">60 min · 180 €</div>
     </div>
-    <div class="service-card">
-      <div class="service-icon-wrap">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      </div>
-      <div class="service-name">Micro-needling</div>
-      <div class="service-desc">Stimulation naturelle du collagène par micro-perforations cutanées. Texture, éclat et fermeté améliorés.</div>
-      <div class="service-duration">60 min</div>
+    <div class="svc-card">
+      <div class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <div class="svc-name">Micro-needling</div>
+      <div class="svc-desc">Stimulation naturelle du collagène. Texture, éclat et fermeté améliorés durablement.</div>
+      <div class="svc-duration">60 min · 120 €</div>
     </div>
-    <div class="service-card">
-      <div class="service-icon-wrap">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
-      </div>
-      <div class="service-name">Mésothérapie</div>
-      <div class="service-desc">Micro-injections de cocktails actifs ciblés pour revitaliser, hydrater et redonner éclat au visage.</div>
-      <div class="service-duration">45 min</div>
+    <div class="svc-card">
+      <div class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg></div>
+      <div class="svc-name">Mésothérapie</div>
+      <div class="svc-desc">Micro-injections d'actifs ciblés pour revitaliser et redonner éclat au visage.</div>
+      <div class="svc-duration">45 min · 95 €</div>
     </div>
-    <div class="service-card">
-      <div class="service-icon-wrap">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><path d="M12 2C6 2 4 7 4 12a8 8 0 0016 0c0-5-2-10-8-10z"/></svg>
-      </div>
-      <div class="service-name">Soins hydratants</div>
-      <div class="service-desc">Protocoles intensifs à base d'acide hyaluronique et de principes actifs pour une peau repulpée et lumineuse.</div>
-      <div class="service-duration">45 – 75 min</div>
+    <div class="svc-card">
+      <div class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><path d="M12 2C6 2 4 7 4 12a8 8 0 0016 0c0-5-2-10-8-10z"/></svg></div>
+      <div class="svc-name">Soin hydratant</div>
+      <div class="svc-desc">Protocole intensif à base d'acide hyaluronique pour une peau repulpée et lumineuse.</div>
+      <div class="svc-duration">60 min · 75 €</div>
     </div>
-    <div class="service-card">
-      <div class="service-icon-wrap">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
-      </div>
-      <div class="service-name">LED / Luminothérapie</div>
-      <div class="service-desc">Photobiomodulation par lumières colorées pour traiter l'acné, stimuler le collagène et apaiser la peau.</div>
-      <div class="service-duration">30 – 45 min</div>
+    <div class="svc-card">
+      <div class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></div>
+      <div class="svc-name">LED / Luminothérapie</div>
+      <div class="svc-desc">Photobiomodulation pour traiter l'acné, stimuler le collagène et apaiser la peau.</div>
+      <div class="svc-duration">30 min · 45 €</div>
     </div>
   </div>
 </section>
 
-<!-- TARIFS -->
-<section class="section" id="tarifs">
-  <div class="section-header">
-    <div class="section-eyebrow">Transparence tarifaire</div>
-    <h2 class="section-title">Nos <em>tarifs</em></h2>
-    <div class="divider"></div>
-  </div>
-  <div class="tarifs-wrap">
-    <div class="tarif-group">
-      <div class="tarif-group-title">PRP Cheveux</div>
-      <div class="tarif-row"><div class="tarif-info"><div class="tarif-name">Séance unitaire</div><div class="tarif-detail">Plasma riche en plaquettes · 1 zone</div></div><div class="tarif-right"><span class="tarif-duration">60 min</span><span class="tarif-price">180 €</span></div></div>
-      <div class="tarif-row"><div class="tarif-info"><div class="tarif-name">Cure 3 séances</div><div class="tarif-detail">Protocole recommandé · résultats optimaux</div></div><div class="tarif-right"><span class="tarif-duration">3 × 60 min</span><span class="tarif-price">490 €</span></div></div>
-    </div>
-    <div class="tarif-group">
-      <div class="tarif-group-title">Micro-needling</div>
-      <div class="tarif-row"><div class="tarif-info"><div class="tarif-name">Visage</div><div class="tarif-detail">Régénération cutanée · stimulation collagène</div></div><div class="tarif-right"><span class="tarif-duration">60 min</span><span class="tarif-price">120 €</span></div></div>
-      <div class="tarif-row"><div class="tarif-info"><div class="tarif-name">Visage + Cou</div><div class="tarif-detail">Zone étendue · effet liftant</div></div><div class="tarif-right"><span class="tarif-duration">75 min</span><span class="tarif-price">155 €</span></div></div>
-      <div class="tarif-row"><div class="tarif-info"><div class="tarif-name">Cure 4 séances</div><div class="tarif-detail">Résultats visibles et durables</div></div><div class="tarif-right"><span class="tarif-duration">4 × 60 min</span><span class="tarif-price">420 €</span></div></div>
-    </div>
-    <div class="tarif-group">
-      <div class="tarif-group-title">Mésothérapie</div>
-      <div class="tarif-row"><div class="tarif-info"><div class="tarif-name">Visage — Éclat & hydratation</div><div class="tarif-detail">Cocktail vitamines & acide hyaluronique</div></div><div class="tarif-right"><span class="tarif-duration">45 min</span><span class="tarif-price">95 €</span></div></div>
-      <div class="tarif-row"><div class="tarif-info"><div class="tarif-name">Cheveux — Anti-chute</div><div class="tarif-detail">Revitalisation du cuir chevelu</div></div><div class="tarif-right"><span class="tarif-duration">45 min</span><span class="tarif-price">85 €</span></div></div>
-    </div>
-    <div class="tarif-group">
-      <div class="tarif-group-title">Soins hydratants & LED</div>
-      <div class="tarif-row"><div class="tarif-info"><div class="tarif-name">Soin hydratant profond</div><div class="tarif-detail">Acide hyaluronique · masque froid</div></div><div class="tarif-right"><span class="tarif-duration">60 min</span><span class="tarif-price">75 €</span></div></div>
-      <div class="tarif-row"><div class="tarif-info"><div class="tarif-name">Luminothérapie LED</div><div class="tarif-detail">Rouge anti-âge · Bleu anti-acné · combiné</div></div><div class="tarif-right"><span class="tarif-duration">30 min</span><span class="tarif-price">45 €</span></div></div>
-      <div class="tarif-row"><div class="tarif-info"><div class="tarif-name">Soin hydratant + LED</div><div class="tarif-detail">Protocole combiné · résultats amplifiés</div></div><div class="tarif-right"><span class="tarif-duration">75 min</span><span class="tarif-price">110 €</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- À PROPOS -->
-<section class="section section-alt" id="apropos">
-  <div class="about-grid">
-    <div class="about-visual">
-      <div class="about-frame">
-        <div class="about-frame-inner">
-          <div class="about-initial">Mia</div>
-          <p>Praticienne certifiée</p>
-        </div>
-      </div>
-      <div class="about-badge-float">
-        <div class="about-badge-num">8+</div>
-        <div class="about-badge-lbl">Années d'exp.</div>
-      </div>
-    </div>
-    <div>
-      <div class="about-eyebrow">Votre praticienne</div>
-      <h2 class="about-title">Un accompagnement <em>personnalisé</em> et bienveillant</h2>
-      <p class="about-body">
-        Praticienne passionnée et certifiée en esthétique médicale, je vous accueille dans un espace calme et confidentiel. Mon approche : écoute, personnalisation et résultats naturels. Chaque protocole est adapté à votre peau, vos attentes et votre budget.
-      </p>
-      <p class="about-body" style="margin-top:-0.5rem">
-        Je vous accompagne de la consultation initiale au suivi post-soin, pour une expérience complète et sécurisée.
-      </p>
-      <div class="about-pills">
-        <span class="pill">Certifiée en esthétique médicale</span>
-        <span class="pill">Formation continue</span>
-        <span class="pill">Protocoles personnalisés</span>
-        <span class="pill">Suivi client</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRISE DE RDV -->
+<!-- RÉSERVATION -->
 <section class="section" id="rdv">
   <div class="section-header">
     <div class="section-eyebrow">Réservation en ligne</div>
-    <h2 class="section-title">Prendre <em>rendez-vous</em></h2>
+    <h2 class="section-title">Choisissez votre <em>créneau</em></h2>
     <div class="divider"></div>
-    <p class="section-subtitle">Choisissez votre soin, une date et un créneau disponible. Confirmation par e-mail immédiate.</p>
+    <p style="font-size:14px;color:var(--gray-500);margin-top:1rem;font-weight:300">Les créneaux grisés sont déjà réservés. Cliquez sur un créneau disponible pour réserver.</p>
   </div>
 
-  <div class="booking-container">
-    <div class="booking-grid">
-      <!-- LEFT: service + calendar + slots -->
-      <div class="booking-panel">
-        <div class="panel-title">Choisir votre <em>soin</em></div>
-        <div class="svc-pick" id="svc-pick">
-          <div class="svc-opt active" onclick="pickSvc(this,'PRP Cheveux','60 min','180 €')">
-            <div><div class="svc-opt-name">PRP Cheveux</div><div class="svc-opt-meta">60 min · Repousse & densité</div></div>
-            <div class="svc-opt-price">180 €</div>
-          </div>
-          <div class="svc-opt" onclick="pickSvc(this,'Micro-needling','60 min','120 €')">
-            <div><div class="svc-opt-name">Micro-needling</div><div class="svc-opt-meta">60 min · Collagène & texture</div></div>
-            <div class="svc-opt-price">120 €</div>
-          </div>
-          <div class="svc-opt" onclick="pickSvc(this,'Mésothérapie','45 min','95 €')">
-            <div><div class="svc-opt-name">Mésothérapie</div><div class="svc-opt-meta">45 min · Éclat & vitalité</div></div>
-            <div class="svc-opt-price">95 €</div>
-          </div>
-          <div class="svc-opt" onclick="pickSvc(this,'Soin hydratant','60 min','75 €')">
-            <div><div class="svc-opt-name">Soin hydratant</div><div class="svc-opt-meta">60 min · Repulpage & lumière</div></div>
-            <div class="svc-opt-price">75 €</div>
-          </div>
-          <div class="svc-opt" onclick="pickSvc(this,'Luminothérapie LED','30 min','45 €')">
-            <div><div class="svc-opt-name">Luminothérapie LED</div><div class="svc-opt-meta">30 min · Anti-âge & anti-acné</div></div>
-            <div class="svc-opt-price">45 €</div>
-          </div>
-        </div>
+  <div class="booking-wrap">
 
-        <div class="panel-title" style="margin-top:2rem">Choisir une <em>date</em></div>
-        <div class="cal-head">
-          <span class="cal-month-lbl" id="cal-lbl">Mars 2026</span>
-          <div class="cal-arrows">
-            <button onclick="chMo(-1)">&#8249;</button>
-            <button onclick="chMo(1)">&#8250;</button>
-          </div>
-        </div>
-        <div class="cal-g" id="cal-g"></div>
+    <!-- Bannière setup (visible uniquement si l'URL n'est pas configurée) -->
+    <div class="setup-banner" id="setup-banner" style="display:none">
+      <strong>⚙️ Configuration requise :</strong> remplace <code>COLLE_TON_URL_ICI</code> dans le code par l'URL de ton Google Apps Script.<br>
+      Consulte le fichier <strong>google-apps-script.js</strong> fourni avec ce site pour les instructions complètes.
+    </div>
 
-        <div class="slots-section" id="slots-section" style="display:none">
-          <div class="slots-date-label" id="slots-lbl"></div>
-          <div class="slots-g" id="slots-g"></div>
-        </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem">
+      <div class="week-nav" style="margin:0">
+        <div class="week-label" id="week-label">Semaine du <em id="week-dates"></em></div>
       </div>
-
-      <!-- RIGHT: form + recap -->
-      <div class="booking-panel">
-        <div class="panel-title">Vos <em>coordonnées</em></div>
-        <div class="form-fields">
-          <div class="field"><label>Prénom</label><input type="text" placeholder="Sophie" /></div>
-          <div class="field"><label>Nom</label><input type="text" placeholder="Martin" /></div>
-          <div class="field span2"><label>E-mail</label><input type="email" placeholder="sophie.martin@email.com" /></div>
-          <div class="field span2"><label>Téléphone</label><input type="tel" placeholder="+33 6 00 00 00 00" /></div>
-          <div class="field span2"><label>Première visite ?</label>
-            <select>
-              <option>Oui, c'est ma première visite</option>
-              <option>Non, je suis déjà venue</option>
-            </select>
-          </div>
-          <div class="field span2"><label>Notes ou contre-indications (optionnel)</label>
-            <textarea placeholder="Grossesse, traitements en cours, allergies connues…"></textarea>
-          </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot avail"></div>Disponible</div>
+          <div class="legend-item"><div class="legend-dot taken"></div>Réservé</div>
+          <div class="legend-item"><div class="legend-dot sel"></div>Sélectionné</div>
         </div>
-
-        <div class="recap">
-          <div class="recap-row"><span class="lbl">Soin</span><span class="val" id="r-svc">PRP Cheveux</span></div>
-          <div class="recap-row"><span class="lbl">Date</span><span class="val" id="r-date">—</span></div>
-          <div class="recap-row"><span class="lbl">Heure</span><span class="val" id="r-slot">—</span></div>
-          <div class="recap-row recap-total"><span class="lbl" style="font-weight:500;color:#1E1C1B">Total</span><span class="val" id="r-price">180 €</span></div>
+        <div class="week-arrows">
+          <button class="week-arrow" id="btn-prev" onclick="changeWeek(-1)">&#8249;</button>
+          <button class="week-arrow" id="btn-next" onclick="changeWeek(1)">&#8250;</button>
         </div>
-
-        <button class="book-btn" onclick="doBook()">Confirmer mon rendez-vous →</button>
-        <div class="book-note">Annulation gratuite jusqu'à 24h avant le rendez-vous.<br>Un e-mail de confirmation vous sera envoyé immédiatement.</div>
       </div>
     </div>
+
+    <div class="week-grid" id="week-grid"></div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-logo">Mia <span>Aesthetics</span></div>
-      <div class="footer-tagline">Institut de beauté médicale spécialisé en PRP, micro-needling et soins régénérateurs.</div>
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Confirmer votre <em>RDV</em></div>
+      <button class="modal-close" onclick="closeModal()">×</button>
     </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Soins</div>
-      <ul>
-        <li>PRP Cheveux</li>
-        <li>Micro-needling</li>
-        <li>Mésothérapie</li>
-        <li>Soins hydratants</li>
-        <li>Luminothérapie LED</li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Institut</div>
-      <ul>
-        <li>À propos</li>
-        <li>Tarifs</li>
-        <li>Prendre RDV</li>
-        <li>Mentions légales</li>
-        <li>Politique de confidentialité</li>
-      </ul>
+    <div class="modal-body">
+      <div class="modal-recap" id="modal-recap"></div>
+
+      <div style="font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:8px">Choisir votre soin</div>
+      <div class="svc-select" id="svc-select"></div>
+
+      <div class="form-grid">
+        <div class="form-field"><label>Prénom *</label><input type="text" id="f-prenom" placeholder="Sophie" required></div>
+        <div class="form-field"><label>Nom *</label><input type="text" id="f-nom" placeholder="Martin" required></div>
+        <div class="form-field full"><label>E-mail *</label><input type="email" id="f-email" placeholder="sophie@email.com" required></div>
+        <div class="form-field full"><label>Téléphone *</label><input type="tel" id="f-tel" placeholder="+33 6 00 00 00 00" required></div>
+        <div class="form-field full"><label>Notes / contre-indications</label><textarea id="f-notes" placeholder="Grossesse, traitements en cours, allergies…"></textarea></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-cancel-btn" onclick="closeModal()">Annuler</button>
+        <button class="modal-confirm" id="btn-confirm" onclick="submitBooking()">Confirmer →</button>
+      </div>
+      <p style="font-size:11px;color:var(--gray-500);text-align:center;margin-top:10px;line-height:1.6">Annulation gratuite jusqu'à 24h avant · Confirmation par e-mail immédiate</p>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 Mia Aesthetics · Tous droits réservés</span>
-    <span class="footer-copy">Fait avec <span class="footer-rose">♥</span></span>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Mia <span>Aesthetics</span></div>
+        <div class="footer-tagline">Institut de beauté médicale spécialisé en PRP, micro-needling et soins régénérateurs.</div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Soins</div>
+        <ul>
+          <li>PRP Cheveux</li><li>Micro-needling</li><li>Mésothérapie</li>
+          <li>Soins hydratants</li><li>Luminothérapie LED</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Institut</div>
+        <ul><li>À propos</li><li>Tarifs</li><li>Prendre RDV</li><li>Mentions légales</li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Mia Aesthetics · Tous droits réservés</span>
+      <span class="footer-copy">Fait avec <span style="color:var(--rose)">♥</span></span>
+    </div>
   </div>
 </footer>
 
 <script>
-  const MO = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-  const TAKEN = {1:['09:00','11:00','14:30'],2:['09:30','10:30','13:00','16:00'],3:['10:00','15:00','17:00'],4:['09:00','14:00','16:30'],5:['10:30','12:00','15:30'],6:['09:00','10:00','11:00'],0:[]};
-  const ALL = ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','13:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30'];
-  let cy=2026,cm=2,selDate=null,selSlot=null,selSvc='PRP Cheveux',selPrice='180 €';
+// ══════════════════════════════════════════
+// ÉTAT GLOBAL
+// ══════════════════════════════════════════
+let currentWeekOffset = 0;
+let bookedSlots = {};       // { 'YYYY-MM-DD': ['10:00','14:00', ...] }
+let selectedSlot = null;    // { date, time }
+let selectedService = CONFIG.SERVICES[0];
+let isLoading = false;
 
-  function pickSvc(el,n,d,p){
-    document.querySelectorAll('.svc-opt').forEach(e=>e.classList.remove('active'));
-    el.classList.add('active');
-    selSvc=n; selPrice=p;
-    document.getElementById('r-svc').textContent=n;
-    document.getElementById('r-price').textContent=p;
+const DAYS_FR = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+const MONTHS_FR = ['jan.','fév.','mar.','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.'];
+const ALL_SLOTS = [...CONFIG.MORNING_SLOTS, ...CONFIG.AFTERNOON_SLOTS];
+
+// ══════════════════════════════════════════
+// UTILITAIRES DATE
+// ══════════════════════════════════════════
+function getMonday(offset = 0) {
+  const now = new Date();
+  const day = now.getDay();
+  const diff = (day === 0 ? -6 : 1 - day);
+  const mon = new Date(now);
+  mon.setDate(now.getDate() + diff + offset * 7);
+  mon.setHours(0, 0, 0, 0);
+  return mon;
+}
+
+function dateKey(d) {
+  return d.toISOString().split('T')[0];
+}
+
+function formatDateFr(d) {
+  return d.getDate() + ' ' + MONTHS_FR[d.getMonth()];
+}
+
+function formatDateLong(d) {
+  return DAYS_FR[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_FR[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+function isPast(dateObj, time) {
+  const [h, m] = time.split(':').map(Number);
+  const slotTime = new Date(dateObj);
+  slotTime.setHours(h, m, 0, 0);
+  return slotTime < new Date();
+}
+
+// ══════════════════════════════════════════
+// CHARGEMENT DES RDV (Google Apps Script)
+// ══════════════════════════════════════════
+async function loadBookings(weekStart) {
+  if (CONFIG.SCRIPT_URL === 'COLLE_TON_URL_ICI') {
+    document.getElementById('setup-banner').style.display = 'block';
+    // Mode démo : simule quelques créneaux pris
+    bookedSlots = {
+      [dateKey(addDays(weekStart, 0))]: ['10:00', '14:00'],
+      [dateKey(addDays(weekStart, 1))]: ['11:00', '15:00', '16:00'],
+      [dateKey(addDays(weekStart, 2))]: ['10:00'],
+      [dateKey(addDays(weekStart, 4))]: ['14:00', '17:00'],
+    };
+    renderGrid(weekStart);
+    return;
+  }
+  try {
+    const end = addDays(weekStart, 5);
+    const url = `${CONFIG.SCRIPT_URL}?action=getBookings&start=${dateKey(weekStart)}&end=${dateKey(end)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    bookedSlots = data.booked || {};
+    renderGrid(weekStart);
+  } catch(e) {
+    showToast('Erreur de chargement des disponibilités', 'error');
+    renderGrid(weekStart);
+  }
+}
+
+function addDays(date, n) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + n);
+  return d;
+}
+
+// ══════════════════════════════════════════
+// RENDU DE LA GRILLE SEMAINE
+// ══════════════════════════════════════════
+function renderGrid(weekStart) {
+  const grid = document.getElementById('week-grid');
+  grid.innerHTML = '';
+
+  // En-tête coin vide
+  const corner = document.createElement('div');
+  corner.className = 'day-header corner';
+  grid.appendChild(corner);
+
+  // En-têtes jours (lun→sam)
+  const today = dateKey(new Date());
+  for (let i = 0; i < 6; i++) {
+    const d = addDays(weekStart, i);
+    const dKey = dateKey(d);
+    const hdr = document.createElement('div');
+    hdr.className = 'day-header' + (dKey === today ? ' today' : '');
+    hdr.innerHTML = `<div class="day-name">${DAYS_FR[d.getDay()]}</div><div class="day-date">${d.getDate()}</div>`;
+    grid.appendChild(hdr);
   }
 
-  function renderCal(){
-    document.getElementById('cal-lbl').textContent=MO[cm]+' '+cy;
-    const g=document.getElementById('cal-g'); g.innerHTML='';
-    ['Lu','Ma','Me','Je','Ve','Sa','Di'].forEach(d=>{const e=document.createElement('div');e.className='cal-dn';e.textContent=d;g.appendChild(e);});
-    const fd=new Date(cy,cm,1).getDay(), off=(fd===0)?6:fd-1;
-    const dim=new Date(cy,cm+1,0).getDate(), pd=new Date(cy,cm,0).getDate();
-    for(let i=0;i<off;i++){const e=document.createElement('div');e.className='cal-d other';e.textContent=pd-off+1+i;g.appendChild(e);}
-    for(let d=1;d<=dim;d++){
-      const e=document.createElement('div');
-      const dt=new Date(cy,cm,d), today=new Date(2026,2,18);
-      const sun=dt.getDay()===0, past=dt<today;
-      e.textContent=d;
-      let cls='cal-d';
-      if(cy===2026&&cm===2&&d===18) cls+=' tod';
-      if(past||sun){ cls+=' off'; }
-      else { cls+=' avail'; e.onclick=()=>pickDate(cy,cm,d,e); }
-      if(selDate&&selDate.y===cy&&selDate.m===cm&&selDate.d===d) cls+=' sel';
-      e.className=cls; g.appendChild(e);
+  // Créneaux matin
+  renderSlotRows(grid, weekStart, CONFIG.MORNING_SLOTS, today);
+
+  // Séparateur pause déj
+  const br = document.createElement('div');
+  br.className = 'break-row';
+  br.innerHTML = '<span class="break-label">— Pause déjeuner —</span>';
+  grid.appendChild(br);
+
+  // Créneaux après-midi
+  renderSlotRows(grid, weekStart, CONFIG.AFTERNOON_SLOTS, today);
+}
+
+function renderSlotRows(grid, weekStart, slots, today) {
+  slots.forEach(time => {
+    // Label heure
+    const lbl = document.createElement('div');
+    lbl.className = 'hour-label';
+    lbl.textContent = time;
+    grid.appendChild(lbl);
+
+    // 6 cellules (lun→sam)
+    for (let i = 0; i < 6; i++) {
+      const d = addDays(weekStart, i);
+      const dKey = dateKey(d);
+      const cell = document.createElement('div');
+      cell.className = 'slot-cell';
+
+      const btn = document.createElement('button');
+      btn.className = 'slot-btn';
+
+      const past = isPast(d, time);
+      const taken = (bookedSlots[dKey] || []).includes(time);
+      const isSelected = selectedSlot && selectedSlot.date === dKey && selectedSlot.time === time;
+
+      if (past) {
+        btn.className += ' past';
+        btn.disabled = true;
+        btn.textContent = '—';
+      } else if (taken) {
+        btn.className += ' taken';
+        btn.disabled = true;
+        btn.textContent = time;
+      } else if (isSelected) {
+        btn.className += ' selected';
+        btn.textContent = time;
+      } else {
+        btn.textContent = time;
+        btn.onclick = () => selectSlot(dKey, time, d);
+      }
+
+      cell.appendChild(btn);
+      grid.appendChild(cell);
     }
+  });
+}
+
+// ══════════════════════════════════════════
+// NAVIGATION SEMAINE
+// ══════════════════════════════════════════
+function changeWeek(dir) {
+  currentWeekOffset += dir;
+  document.getElementById('btn-prev').disabled = currentWeekOffset <= 0;
+  initWeek();
+}
+
+function initWeek() {
+  const mon = getMonday(currentWeekOffset);
+  const sat = addDays(mon, 5);
+  document.getElementById('week-dates').textContent = formatDateFr(mon) + ' – ' + formatDateFr(sat) + ' ' + sat.getFullYear();
+  document.getElementById('btn-prev').disabled = currentWeekOffset <= 0;
+  selectedSlot = null;
+  loadBookings(mon);
+}
+
+// ══════════════════════════════════════════
+// SÉLECTION CRÉNEAU → OUVRE MODAL
+// ══════════════════════════════════════════
+function selectSlot(dateStr, time, dateObj) {
+  selectedSlot = { date: dateStr, time, dateObj };
+  renderGrid(getMonday(currentWeekOffset));
+  openModal(dateObj, time);
+}
+
+// ══════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════
+function openModal(dateObj, time) {
+  // Récap
+  document.getElementById('modal-recap').innerHTML = `
+    <div class="modal-recap-row"><span class="modal-recap-lbl">Date</span><span class="modal-recap-val">${formatDateLong(dateObj)}</span></div>
+    <div class="modal-recap-row"><span class="modal-recap-lbl">Heure</span><span class="modal-recap-val">${time}</span></div>
+    <div class="modal-recap-row" id="recap-svc-row"><span class="modal-recap-lbl">Soin</span><span class="modal-recap-val" id="recap-svc">${selectedService.name}</span></div>
+    <div class="modal-recap-row" id="recap-price-row"><span class="modal-recap-lbl">Tarif</span><span class="modal-recap-val" id="recap-price" style="color:var(--rose)">${selectedService.price}</span></div>
+  `;
+
+  // Sélecteur soins
+  const svcSel = document.getElementById('svc-select');
+  svcSel.innerHTML = CONFIG.SERVICES.map(s => `
+    <div class="svc-radio ${s.id === selectedService.id ? 'active' : ''}" onclick="pickService('${s.id}')">
+      <div class="svc-radio-left">
+        <div class="svc-dot"><div class="svc-dot-inner"></div></div>
+        <div><div class="svc-radio-name">${s.name}</div><div class="svc-radio-meta">${s.duration}</div></div>
+      </div>
+      <div class="svc-radio-price">${s.price}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  selectedSlot = null;
+  renderGrid(getMonday(currentWeekOffset));
+}
+
+function pickService(id) {
+  selectedService = CONFIG.SERVICES.find(s => s.id === id);
+  document.querySelectorAll('.svc-radio').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('recap-svc').textContent = selectedService.name;
+  document.getElementById('recap-price').textContent = selectedService.price;
+}
+
+// ══════════════════════════════════════════
+// SOUMISSION DU RDV
+// ══════════════════════════════════════════
+async function submitBooking() {
+  const prenom = document.getElementById('f-prenom').value.trim();
+  const nom    = document.getElementById('f-nom').value.trim();
+  const email  = document.getElementById('f-email').value.trim();
+  const tel    = document.getElementById('f-tel').value.trim();
+  const notes  = document.getElementById('f-notes').value.trim();
+
+  if (!prenom || !nom || !email || !tel) {
+    showToast('Merci de remplir tous les champs obligatoires', 'error');
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showToast('Adresse e-mail invalide', 'error');
+    return;
   }
 
-  function pickDate(y,m,d,el){
-    selDate={y,m,d}; selSlot=null;
-    document.querySelectorAll('.cal-d').forEach(e=>e.classList.remove('sel'));
-    el.classList.add('sel');
-    document.getElementById('r-date').textContent=d+' '+MO[m]+' '+y;
-    document.getElementById('r-slot').textContent='—';
-    const dow=new Date(y,m,d).getDay(), taken=TAKEN[dow]||[];
-    document.getElementById('slots-lbl').textContent='Créneaux disponibles — '+d+' '+MO[m];
-    renderSlots(taken);
-    document.getElementById('slots-section').style.display='block';
+  const btn = document.getElementById('btn-confirm');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Confirmation…';
+
+  const payload = {
+    action: 'book',
+    date: selectedSlot.date,
+    time: selectedSlot.time,
+    service: selectedService.name,
+    price: selectedService.price,
+    prenom, nom, email, tel, notes
+  };
+
+  if (CONFIG.SCRIPT_URL === 'COLLE_TON_URL_ICI') {
+    // Mode démo
+    await new Promise(r => setTimeout(r, 1200));
+    if (!bookedSlots[selectedSlot.date]) bookedSlots[selectedSlot.date] = [];
+    bookedSlots[selectedSlot.date].push(selectedSlot.time);
+    closeModal();
+    showToast('✓ RDV confirmé ! (mode démo)', 'success');
+    btn.disabled = false;
+    btn.textContent = 'Confirmer →';
+    renderGrid(getMonday(currentWeekOffset));
+    return;
   }
 
-  function renderSlots(taken){
-    const g=document.getElementById('slots-g'); g.innerHTML='';
-    ALL.forEach(s=>{
-      const e=document.createElement('div');
-      if(taken.includes(s)){ e.className='slot-btn taken'; e.innerHTML='<span>'+s+'</span>'; }
-      else { e.className='slot-btn'; e.textContent=s; e.onclick=()=>pickSlot(s,e); }
-      g.appendChild(e);
+  try {
+    const res = await fetch(CONFIG.SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
     });
+    const data = await res.json();
+    if (data.success) {
+      if (!bookedSlots[selectedSlot.date]) bookedSlots[selectedSlot.date] = [];
+      bookedSlots[selectedSlot.date].push(selectedSlot.time);
+      closeModal();
+      showToast('✓ RDV confirmé ! Un e-mail vous a été envoyé.', 'success');
+      renderGrid(getMonday(currentWeekOffset));
+    } else {
+      showToast(data.error || 'Erreur lors de la réservation', 'error');
+    }
+  } catch(e) {
+    showToast('Erreur réseau, veuillez réessayer', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Confirmer →';
   }
+}
 
-  function pickSlot(s,el){
-    selSlot=s;
-    document.querySelectorAll('.slot-btn').forEach(e=>e.classList.remove('sel-slot'));
-    el.classList.add('sel-slot');
-    document.getElementById('r-slot').textContent=s;
-  }
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type;
+  setTimeout(() => t.classList.add('show'), 10);
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
 
-  function chMo(d){
-    cm+=d;
-    if(cm>11){cm=0;cy++;}
-    if(cm<0){cm=11;cy--;}
-    selDate=null;
-    document.getElementById('slots-section').style.display='none';
-    document.getElementById('r-date').textContent='—';
-    document.getElementById('r-slot').textContent='—';
-    renderCal();
-  }
-
-  function doBook(){
-    if(!selDate||!selSlot){ alert('Veuillez sélectionner une date et un créneau.'); return; }
-    const {y,m,d}=selDate;
-    alert('✓ Rendez-vous confirmé !\n\n'+selSvc+'\n'+d+' '+MO[m]+' '+y+' à '+selSlot+'\n\nMontant : '+selPrice+'\n\nUn e-mail de confirmation vous a été envoyé.');
-  }
-
-  renderCal();
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+document.getElementById('btn-prev').disabled = true;
+initWeek();
 </script>
 </body>
 </html>
