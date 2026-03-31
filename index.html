@@ -1,742 +1,930 @@
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Mia Aesthetics — Prise de rendez-vous</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --rose:#C9889E;--rose-light:#F2E8ED;--rose-mid:#E0B8C8;--rose-dark:#9E6075;
-  --gray-50:#FAFAF9;--gray-100:#F7F6F5;--gray-200:#EDECEA;--gray-300:#D8D5D2;
-  --gray-500:#9A9590;--gray-700:#5C5855;--gray-900:#1E1C1B;--white:#fff;
-  --font-d:'Cormorant Garamond',serif;--font-b:'DM Sans',sans-serif;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mia Aesthetics — Réservation en ligne</title>
+  <meta name="description" content="Réservez votre soin esthétique chez Mia Aesthetics : PRP cheveux, micro-needling, mésothérapie, LED et soins hydratants." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
-  /* ════════════════════════════════════════════════════
-     🔧 CONFIGURATION — modifie uniquement cette section
-     ════════════════════════════════════════════════════ */
-  --slot-morning-start:10;  /* 10h */
-  --slot-morning-end:13;    /* jusqu'à 13h (dernier créneau 13h) */
-  --slot-afternoon-start:14;/* 14h */
-  --slot-afternoon-end:19;  /* jusqu'à 19h (dernier créneau 19h) */
-}
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#fffafc;
+      --surface:#ffffff;
+      --surface-2:#fff4f7;
+      --surface-3:#f8f4f6;
+      --text:#20181d;
+      --muted:#7b6d75;
+      --line:#ecdde4;
+      --line-strong:#dfc5d1;
+      --primary:#c86d92;
+      --primary-strong:#ab5177;
+      --primary-soft:#f9e8ef;
+      --success:#178f63;
+      --danger:#d44e61;
+      --shadow:0 20px 60px rgba(91,44,66,.10);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --radius-md:16px;
+      --radius-sm:12px;
+      --container:1220px;
+      --font-title:'Playfair Display', serif;
+      --font-body:'Manrope', sans-serif;
+    }
 
-html{scroll-behavior:smooth}
-body{font-family:var(--font-b);background:var(--white);color:var(--gray-900);overflow-x:hidden}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:var(--font-body);
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(200,109,146,.12), transparent 25%),
+        radial-gradient(circle at right 20%, rgba(240,204,219,.28), transparent 24%),
+        var(--bg);
+      overflow-x:hidden;
+    }
 
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 4rem;height:68px;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-200)}
-.nav-logo{font-family:var(--font-d);font-size:20px;font-weight:400;letter-spacing:.08em;color:var(--gray-900);text-decoration:none}
-.nav-logo span{color:var(--rose);font-style:italic}
-.nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{font-size:12px;font-weight:400;letter-spacing:.06em;color:var(--gray-700);text-decoration:none;text-transform:uppercase;transition:color .2s}
-.nav-links a:hover{color:var(--rose)}
-@media(max-width:700px){nav{padding:0 1.2rem}.nav-links{display:none}}
+    a{text-decoration:none;color:inherit}
+    button,input,textarea,select{font:inherit}
 
-/* ── HERO ── */
-.hero{min-height:100vh;display:flex;align-items:center;padding-top:68px;background:var(--gray-50)}
-.hero-inner{max-width:900px;margin:0 auto;padding:5rem 2rem;text-align:center}
-.hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:12px}
-.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:24px;height:1px;background:var(--rose)}
-.hero-title{font-family:var(--font-d);font-size:clamp(42px,6vw,78px);font-weight:300;line-height:1.08;color:var(--gray-900);margin-bottom:1.5rem}
-.hero-title em{font-style:italic;color:var(--rose)}
-.hero-desc{font-size:15px;font-weight:300;line-height:1.9;color:var(--gray-700);max-width:500px;margin:0 auto 2.5rem}
-.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.btn-primary{padding:14px 34px;background:var(--rose);color:white;border:none;border-radius:2px;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;text-decoration:none;display:inline-block;font-family:var(--font-b)}
-.btn-primary:hover{background:var(--rose-dark)}
-.btn-ghost{padding:14px 34px;background:transparent;color:var(--gray-700);border:1px solid var(--gray-300);border-radius:2px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
-.hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--gray-200)}
-.stat-num{font-family:var(--font-d);font-size:38px;font-weight:400;color:var(--gray-900)}
-.stat-num span{color:var(--rose)}
-.stat-label{font-size:11px;color:var(--gray-500);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+    .container{width:min(var(--container), calc(100% - 32px));margin:0 auto}
 
-/* ── SECTIONS ── */
-.section{padding:7rem 2rem}
-.section-alt{background:var(--gray-100)}
-.section-header{text-align:center;margin-bottom:4rem}
-.section-eyebrow{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:1rem}
-.section-title{font-family:var(--font-d);font-size:clamp(30px,4vw,50px);font-weight:300;color:var(--gray-900);line-height:1.15}
-.section-title em{font-style:italic;color:var(--rose)}
-.divider{width:36px;height:1px;background:var(--rose);margin:1.25rem auto 0}
+    /* NAV */
+    .nav{
+      position:sticky;top:0;z-index:1000;
+      backdrop-filter:blur(18px);
+      background:rgba(255,250,252,.78);
+      border-bottom:1px solid rgba(223,197,209,.65);
+    }
+    .nav-inner{
+      display:flex;align-items:center;justify-content:space-between;
+      min-height:76px;gap:20px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.02em;
+    }
+    .brand-badge{
+      width:40px;height:40px;border-radius:14px;
+      background:linear-gradient(135deg, var(--primary), #f0b6cb);
+      color:#fff;display:grid;place-items:center;
+      box-shadow:0 10px 24px rgba(200,109,146,.28);
+      font-family:var(--font-title);font-size:20px;
+    }
+    .brand-text{display:flex;flex-direction:column;line-height:1.05}
+    .brand-text strong{font-size:15px}
+    .brand-text span{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+    .nav-links{display:flex;gap:24px;align-items:center}
+    .nav-links a{font-size:14px;color:var(--muted);font-weight:600}
+    .nav-links a:hover{color:var(--primary)}
 
-/* ── SERVICES GRID ── */
-.services-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--gray-200);border:1px solid var(--gray-200);max-width:1100px;margin:0 auto}
-.svc-card{background:var(--white);padding:2.5rem 1.75rem;display:flex;flex-direction:column;gap:.8rem;transition:background .2s;cursor:default}
-.svc-card:hover{background:var(--rose-light)}
-.svc-icon{width:44px;height:44px;border-radius:50%;background:var(--rose-light);display:flex;align-items:center;justify-content:center}
-.svc-card:hover .svc-icon{background:white}
-.svc-name{font-family:var(--font-d);font-size:19px;font-weight:400;color:var(--gray-900);line-height:1.2}
-.svc-desc{font-size:12px;color:var(--gray-500);line-height:1.7;font-weight:300}
-.svc-duration{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);font-weight:500;margin-top:auto}
-@media(max-width:900px){.services-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:500px){.services-grid{grid-template-columns:1fr}}
+    .btn{
+      border:none;cursor:pointer;transition:.2s ease;
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      border-radius:999px;padding:14px 22px;font-weight:700;font-size:14px;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg, var(--primary), var(--primary-strong));
+      color:#fff;box-shadow:0 12px 28px rgba(200,109,146,.26);
+    }
+    .btn-primary:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(200,109,146,.34)}
+    .btn-secondary{
+      background:#fff;border:1px solid var(--line);color:var(--text);
+    }
+    .btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
 
-/* ═══════════════════════════════════════════════════
-   SYSTÈME DE RÉSERVATION
-═══════════════════════════════════════════════════ */
-.booking-wrap{max-width:1050px;margin:0 auto}
+    /* HERO */
+    .hero{padding:44px 0 36px}
+    .hero-grid{
+      display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:stretch;
+    }
+    .hero-card,.hero-panel{
+      background:rgba(255,255,255,.74);border:1px solid rgba(236,221,228,.9);
+      box-shadow:var(--shadow);border-radius:var(--radius-xl);
+    }
+    .hero-card{
+      padding:64px;
+      position:relative;overflow:hidden;
+    }
+    .hero-card::after{
+      content:"";position:absolute;right:-40px;top:-40px;width:220px;height:220px;border-radius:50%;
+      background:radial-gradient(circle, rgba(200,109,146,.16), transparent 68%);
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 14px;border-radius:999px;background:var(--primary-soft);
+      color:var(--primary-strong);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;
+      margin-bottom:22px;
+    }
+    h1{
+      font-family:var(--font-title);font-size:clamp(42px, 7vw, 78px);line-height:.98;font-weight:600;
+      margin-bottom:18px;
+    }
+    h1 em{font-style:normal;color:var(--primary)}
+    .hero-desc{
+      font-size:17px;line-height:1.8;color:var(--muted);max-width:620px;margin-bottom:28px;
+    }
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+    .hero-stats{
+      margin-top:36px;padding-top:24px;border-top:1px solid var(--line);
+      display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+    }
+    .stat{padding:12px 0}
+    .stat strong{display:block;font-size:32px;font-weight:800;color:var(--text)}
+    .stat span{display:block;font-size:13px;color:var(--muted)}
 
-/* Semaine navigation */
-.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
-.week-label{font-family:var(--font-d);font-size:22px;font-weight:400;color:var(--gray-900)}
-.week-label em{font-style:italic;color:var(--rose)}
-.week-arrows{display:flex;gap:6px}
-.week-arrow{width:34px;height:34px;border:1px solid var(--gray-300);border-radius:2px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gray-500);font-size:18px;transition:all .15s;font-family:var(--font-b)}
-.week-arrow:hover{border-color:var(--rose);color:var(--rose)}
-.week-arrow:disabled{opacity:.3;cursor:not-allowed}
+    .hero-panel{padding:24px;display:flex;flex-direction:column;gap:18px}
+    .glass-block{
+      border-radius:24px;padding:24px;background:linear-gradient(180deg, #fff, #fff7fa);border:1px solid var(--line);
+    }
+    .panel-title{font-size:13px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);font-weight:800;margin-bottom:14px}
+    .value-card{display:grid;gap:12px}
+    .value-item{
+      display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:18px;background:#fff;border:1px solid var(--line);
+    }
+    .value-icon{
+      width:42px;height:42px;border-radius:14px;display:grid;place-items:center;flex-shrink:0;
+      background:var(--primary-soft);color:var(--primary);
+    }
+    .value-item strong{display:block;font-size:15px;margin-bottom:4px}
+    .value-item span{font-size:13px;line-height:1.6;color:var(--muted)}
 
-/* Grille semaine */
-.week-grid{display:grid;grid-template-columns:60px repeat(6,1fr);gap:1px;background:var(--gray-200);border:1px solid var(--gray-200);border-radius:2px;overflow:hidden}
+    /* SECTION */
+    section{padding:44px 0}
+    .section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:24px}
+    .section-copy small{
+      display:block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.16em;color:var(--primary);margin-bottom:10px;
+    }
+    .section-copy h2{
+      font-family:var(--font-title);font-size:clamp(30px, 4vw, 52px);line-height:1.05;font-weight:600;
+    }
+    .section-copy p{margin-top:10px;color:var(--muted);max-width:680px;line-height:1.8}
 
-/* En-têtes jours */
-.day-header{background:var(--gray-900);padding:12px 8px;text-align:center}
-.day-header.corner{background:var(--gray-900)}
-.day-name{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5)}
-.day-date{font-family:var(--font-d);font-size:20px;font-weight:400;color:white;margin-top:2px}
-.day-header.today .day-date{color:var(--rose)}
-.day-header.today .day-name{color:var(--rose-mid)}
+    /* SERVICES */
+    .services{
+      display:grid;grid-template-columns:repeat(5,1fr);gap:18px;
+    }
+    .service-card{
+      background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;
+      box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px;min-height:245px;
+      transition:.2s ease;
+    }
+    .service-card:hover{transform:translateY(-4px);border-color:var(--line-strong)}
+    .service-icon{
+      width:52px;height:52px;border-radius:18px;background:var(--primary-soft);display:grid;place-items:center;color:var(--primary)
+    }
+    .service-card h3{font-size:20px;font-family:var(--font-title);font-weight:600}
+    .service-card p{font-size:14px;color:var(--muted);line-height:1.7;flex:1}
+    .service-meta{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .service-meta span{font-size:13px;color:var(--muted);font-weight:700}
+    .price-chip{padding:8px 12px;border-radius:999px;background:var(--primary-soft);color:var(--primary-strong);font-weight:800;font-size:13px}
 
-/* Cellules heures */
-.hour-label{background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gray-500);font-weight:400;letter-spacing:.04em;border-bottom:1px solid var(--gray-200)}
+    /* BOOKING */
+    .booking-shell{
+      display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start;
+    }
+    .booking-side,.booking-main{
+      background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow)
+    }
+    .booking-side{padding:22px;position:sticky;top:100px}
+    .side-title{font-size:13px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:800;margin-bottom:14px}
+    .service-pills{display:grid;gap:10px}
+    .service-pill{
+      border:1px solid var(--line);background:#fff;border-radius:18px;padding:16px;cursor:pointer;transition:.2s ease;
+    }
+    .service-pill:hover{border-color:var(--line-strong)}
+    .service-pill.active{border-color:var(--primary);background:var(--primary-soft);box-shadow:inset 0 0 0 1px rgba(200,109,146,.15)}
+    .service-pill strong{display:block;font-size:15px;margin-bottom:4px}
+    .service-pill small{display:block;color:var(--muted);font-size:13px;line-height:1.5}
+    .service-pill .service-pill-row{display:flex;justify-content:space-between;gap:10px;align-items:center}
 
-/* Séparateur pause déjeuner */
-.break-row{grid-column:1/-1;background:var(--gray-200);height:28px;display:flex;align-items:center;justify-content:center}
-.break-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500)}
+    .booking-main{padding:22px}
+    .booking-top{
+      display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px;
+    }
+    .week-title{font-size:27px;font-family:var(--font-title);font-weight:600}
+    .week-title em{color:var(--primary);font-style:normal}
+    .booking-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-top:6px}
 
-/* Slots */
-.slot-cell{background:var(--white);padding:4px;border-bottom:1px solid var(--gray-200)}
-.slot-btn{width:100%;height:100%;min-height:44px;border:1px solid var(--gray-200);border-radius:2px;background:white;cursor:pointer;font-size:12px;font-weight:400;color:var(--gray-700);transition:all .12s;display:flex;align-items:center;justify-content:center;font-family:var(--font-b);position:relative}
-.slot-btn:hover{border-color:var(--rose);color:var(--rose);background:var(--rose-light)}
-.slot-btn.taken{background:var(--gray-100);color:var(--gray-300);cursor:not-allowed;border-color:var(--gray-200)}
-.slot-btn.taken::after{content:'';position:absolute;top:50%;left:10%;right:10%;height:1px;background:var(--gray-300)}
-.slot-btn.selected{background:var(--rose);border-color:var(--rose);color:white}
-.slot-btn.loading{opacity:.5;pointer-events:none}
-.slot-btn.past{background:var(--gray-50);color:var(--gray-300);cursor:not-allowed;border-color:transparent}
+    .booking-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .legend{display:flex;gap:14px;flex-wrap:wrap}
+    .legend-item{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:600}
+    .legend-dot{width:12px;height:12px;border-radius:999px}
+    .legend-dot.available{background:#fff;border:1px solid var(--line-strong)}
+    .legend-dot.selected{background:var(--primary)}
+    .legend-dot.taken{background:#eadfe5}
+    .legend-dot.past{background:#f3eef1}
 
-/* Légende */
-.legend{display:flex;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-500)}
-.legend-dot{width:10px;height:10px;border-radius:2px}
-.legend-dot.avail{background:white;border:1px solid var(--gray-300)}
-.legend-dot.taken{background:var(--gray-200)}
-.legend-dot.sel{background:var(--rose)}
+    .nav-arrows{display:flex;gap:8px}
+    .nav-btn{
+      width:44px;height:44px;border:none;background:#fff;border-radius:14px;cursor:pointer;
+      border:1px solid var(--line);font-size:20px;color:var(--text);transition:.2s ease;
+    }
+    .nav-btn:hover:not(:disabled){border-color:var(--primary);color:var(--primary)}
+    .nav-btn:disabled{opacity:.35;cursor:not-allowed}
 
-/* Modal confirmation */
-.modal-overlay{position:fixed;inset:0;background:rgba(30,28,27,.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s}
-.modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:white;border-radius:2px;padding:0;width:100%;max-width:480px;overflow:hidden;transform:translateY(20px);transition:transform .2s}
-.modal-overlay.open .modal{transform:translateY(0)}
-.modal-header{background:var(--gray-900);padding:24px 28px;display:flex;justify-content:space-between;align-items:center}
-.modal-title{font-family:var(--font-d);font-size:22px;font-weight:400;color:white}
-.modal-title em{font-style:italic;color:var(--rose)}
-.modal-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:22px;cursor:pointer;line-height:1;padding:0 4px}
-.modal-close:hover{color:white}
-.modal-body{padding:24px 28px}
-.modal-recap{background:var(--gray-100);padding:14px 18px;border-radius:2px;margin-bottom:20px;display:flex;flex-direction:column;gap:7px}
-.modal-recap-row{display:flex;justify-content:space-between;font-size:13px}
-.modal-recap-lbl{color:var(--gray-500)}
-.modal-recap-val{color:var(--gray-900);font-weight:500}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.form-field{display:flex;flex-direction:column;gap:5px}
-.form-field.full{grid-column:1/-1}
-.form-field label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);font-weight:500}
-.form-field input,.form-field select,.form-field textarea{padding:10px 14px;border:1px solid var(--gray-200);border-radius:2px;font-size:13px;font-family:var(--font-b);color:var(--gray-900);background:white;width:100%;transition:border-color .15s}
-.form-field input:focus,.form-field select:focus,.form-field textarea:focus{outline:none;border-color:var(--rose)}
-.form-field textarea{min-height:70px;resize:vertical}
-.modal-actions{display:flex;gap:10px}
-.modal-confirm{flex:1;padding:13px;background:var(--rose);color:white;border:none;border-radius:2px;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:var(--font-b);transition:background .2s}
-.modal-confirm:hover{background:var(--rose-dark)}
-.modal-confirm:disabled{background:var(--gray-300);cursor:not-allowed}
-.modal-cancel-btn{padding:13px 20px;background:transparent;border:1px solid var(--gray-300);color:var(--gray-500);border-radius:2px;font-size:13px;cursor:pointer;font-family:var(--font-b)}
+    .calendar{
+      border:1px solid var(--line);border-radius:24px;overflow:hidden;background:#fff;
+    }
+    .calendar-head,.calendar-row{
+      display:grid;grid-template-columns:82px repeat(6, 1fr);
+    }
+    .calendar-head{background:#20181d;color:#fff}
+    .calendar-head .corner{background:#20181d;border-right:1px solid rgba(255,255,255,.06)}
+    .day-head{padding:14px 10px;text-align:center;border-left:1px solid rgba(255,255,255,.06)}
+    .day-head small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.62);font-weight:800}
+    .day-head strong{display:block;margin-top:4px;font-size:24px;font-family:var(--font-title);font-weight:600}
+    .day-head.today strong,.day-head.today small{color:#f2b8cd}
 
-/* Toast notification */
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--gray-900);color:white;padding:14px 24px;border-radius:2px;font-size:13px;z-index:300;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
-.toast.success{background:#1D9E75}
-.toast.error{background:#E24B4A}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .hour-cell{
+      display:flex;align-items:center;justify-content:center;padding:10px;background:var(--surface-3);
+      color:var(--muted);font-size:12px;font-weight:800;border-right:1px solid var(--line);border-top:1px solid var(--line)
+    }
+    .slot-wrap{padding:8px;border-top:1px solid var(--line);border-right:1px solid var(--line);background:#fff}
+    .slot-btn{
+      width:100%;min-height:54px;border-radius:16px;border:1px solid var(--line);
+      background:#fff;color:var(--text);font-size:13px;font-weight:800;cursor:pointer;transition:.18s ease;
+    }
+    .slot-btn:hover:not(:disabled){transform:translateY(-1px);border-color:var(--primary);color:var(--primary);background:var(--primary-soft)}
+    .slot-btn.selected{background:linear-gradient(135deg, var(--primary), var(--primary-strong));color:#fff;border-color:transparent}
+    .slot-btn.taken{background:#f7f2f5;color:#b1a3aa;border-color:#eee3e8;cursor:not-allowed;text-decoration:line-through}
+    .slot-btn.past{background:#fbf8fa;color:#c9bcc3;border-color:#f3eaee;cursor:not-allowed}
+    .break-row{display:grid;grid-template-columns:1fr;background:linear-gradient(90deg, #fff6f9, #fff);padding:10px;border-top:1px solid var(--line)}
+    .break-pill{justify-self:center;padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:800;color:var(--muted)}
 
-/* Loading spinner */
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
-@keyframes spin{to{transform:rotate(360deg)}}
+    /* EMPTY / INFO */
+    .info-banner{
+      margin-top:16px;padding:16px 18px;border-radius:18px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);font-size:14px;line-height:1.7
+    }
+    .info-banner strong{color:var(--text)}
 
-/* Soin selector dans modal */
-.svc-select{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-.svc-radio{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--gray-200);border-radius:2px;cursor:pointer;transition:all .12s}
-.svc-radio:hover{border-color:var(--rose-mid)}
-.svc-radio.active{border-color:var(--rose);background:var(--rose-light)}
-.svc-radio-left{display:flex;align-items:center;gap:8px}
-.svc-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--gray-300);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.svc-radio.active .svc-dot{border-color:var(--rose)}
-.svc-dot-inner{width:7px;height:7px;border-radius:50%;background:var(--rose);display:none}
-.svc-radio.active .svc-dot-inner{display:block}
-.svc-radio-name{font-size:13px;font-weight:400;color:var(--gray-900)}
-.svc-radio-meta{font-size:11px;color:var(--gray-500)}
-.svc-radio-price{font-family:var(--font-d);font-size:17px;color:var(--rose);font-weight:400}
+    /* MODAL */
+    .modal-overlay{
+      position:fixed;inset:0;background:rgba(21,14,18,.52);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px;
+      opacity:0;pointer-events:none;transition:.2s ease;z-index:2000;
+    }
+    .modal-overlay.open{opacity:1;pointer-events:auto}
+    .modal{
+      width:min(760px, 100%);background:#fff;border-radius:30px;border:1px solid var(--line);box-shadow:0 26px 70px rgba(20,12,17,.22);
+      transform:translateY(18px) scale(.985);transition:.24s ease;overflow:hidden;
+    }
+    .modal-overlay.open .modal{transform:translateY(0) scale(1)}
+    .modal-header{
+      display:flex;justify-content:space-between;gap:20px;align-items:start;padding:24px 24px 18px;border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, #fff, #fff7fa)
+    }
+    .modal-header h3{font-family:var(--font-title);font-size:32px;line-height:1.05}
+    .modal-header p{margin-top:8px;color:var(--muted);line-height:1.6;font-size:14px}
+    .modal-close{
+      width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:24px;color:var(--muted)
+    }
+    .modal-body{padding:24px;display:grid;grid-template-columns:240px 1fr;gap:20px}
+    .summary-card,.form-card{
+      border:1px solid var(--line);border-radius:22px;background:#fff;padding:18px
+    }
+    .summary-card{background:linear-gradient(180deg, #fff8fb, #fff)}
+    .summary-card h4,.form-card h4{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:800;margin-bottom:14px}
+    .summary-list{display:grid;gap:12px}
+    .summary-item{padding:12px 14px;border-radius:16px;background:#fff;border:1px solid var(--line)}
+    .summary-item span{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    .summary-item strong{display:block;font-size:15px;line-height:1.5}
 
-/* ── FOOTER ── */
-footer{background:var(--gray-900);color:white;padding:4rem 2rem 2rem}
-.footer-inner{max-width:1050px;margin:0 auto}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
-.footer-logo{font-family:var(--font-d);font-size:22px;font-weight:300;color:white;margin-bottom:.75rem}
-.footer-logo span{color:var(--rose);font-style:italic}
-.footer-tagline{font-size:13px;color:rgba(255,255,255,.35);font-weight:300;line-height:1.7;max-width:240px}
-.footer-col-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);margin-bottom:1rem;font-weight:500}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-.footer-col ul li{font-size:13px;color:rgba(255,255,255,.4);font-weight:300}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center}
-.footer-copy{font-size:11px;color:rgba(255,255,255,.2)}
-@media(max-width:700px){.footer-grid{grid-template-columns:1fr}}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .field{display:flex;flex-direction:column;gap:8px}
+    .field.full{grid-column:1 / -1}
+    .field label{font-size:12px;font-weight:800;color:var(--muted)}
+    .field input,.field textarea{
+      width:100%;border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px 16px;color:var(--text);transition:.18s ease
+    }
+    .field input:focus,.field textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px rgba(200,109,146,.10)}
+    .field textarea{min-height:108px;resize:vertical}
+    .form-note{font-size:12px;line-height:1.6;color:var(--muted);margin-top:14px}
+    .modal-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
 
-/* Setup banner */
-</style>
+    /* TOAST */
+    .toast{
+      position:fixed;right:18px;bottom:18px;min-width:300px;max-width:calc(100% - 24px);
+      padding:16px 18px;border-radius:18px;background:#20181d;color:#fff;box-shadow:0 24px 60px rgba(32,24,29,.28);
+      transform:translateY(20px);opacity:0;pointer-events:none;transition:.25s ease;z-index:3000;font-size:14px;font-weight:700;
+    }
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast.success{background:var(--success)}
+    .toast.error{background:var(--danger)}
+
+    .spinner{
+      width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
+      display:inline-block;animation:spin .7s linear infinite
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* FOOTER */
+    .footer{padding:24px 0 44px}
+    .footer-card{
+      background:#20181d;color:#fff;border-radius:32px;padding:30px;border:1px solid rgba(255,255,255,.04)
+    }
+    .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:24px}
+    .footer-card p,.footer-card li{color:rgba(255,255,255,.72);line-height:1.8;font-size:14px}
+    .footer-card h4{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:#f0b6cb;margin-bottom:12px}
+    .footer-card ul{list-style:none}
+    .footer-bottom{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:rgba(255,255,255,.58);font-size:13px}
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px){
+      .services{grid-template-columns:repeat(2,1fr)}
+      .booking-shell{grid-template-columns:1fr}
+      .booking-side{position:static}
+      .hero-grid{grid-template-columns:1fr}
+      .modal-body{grid-template-columns:1fr}
+    }
+    @media (max-width: 760px){
+      .nav-links{display:none}
+      .hero-card{padding:34px 24px}
+      .hero-stats{grid-template-columns:1fr}
+      .services{grid-template-columns:1fr}
+      .section-head{display:block}
+      .calendar-head,.calendar-row{grid-template-columns:64px repeat(6, minmax(88px,1fr))}
+      .booking-main{padding:14px}
+      .calendar{overflow:auto}
+      .modal-header h3{font-size:26px}
+      .form-grid{grid-template-columns:1fr}
+      .footer-grid{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 <body>
+  <script>
+    const CONFIG = {
+      SCRIPT_URL: 'https://script.google.com/macros/s/AKfycby88lDIDtNNODvur5he230lwpPr6kI4jixYA9DEa_Ale4aesmuWjDM4jwB_rVKwzXqLUw/exec',
+      WORK_DAYS: [1,2,3,4,5,6],
+      MORNING_SLOTS: ['10:00','11:00','12:00','13:00'],
+      AFTERNOON_SLOTS: ['14:00','15:00','16:00','17:00','18:00','19:00'],
+      SERVICES: [
+        {id:'prp-cheveux', name:'PRP Cheveux', duration:'60 min', price:'180 €', desc:'Stimule la repousse et renforce les cheveux fragilisés.'},
+        {id:'micro-needling', name:'Micro-needling', duration:'60 min', price:'120 €', desc:'Relance la production naturelle de collagène et affine le grain de peau.'},
+        {id:'mesotherapie', name:'Mésothérapie', duration:'45 min', price:'95 €', desc:'Micro-injections d’actifs ciblés pour hydrater et revitaliser la peau.'},
+        {id:'soin-hydratant', name:'Soin hydratant', duration:'60 min', price:'75 €', desc:'Protocole repulpant pour retrouver confort, souplesse et éclat.'},
+        {id:'led', name:'Luminothérapie LED', duration:'30 min', price:'45 €', desc:'Apaise, régénère et accompagne les peaux sujettes aux imperfections.'}
+      ]
+    };
+  </script>
 
-<!-- ════════════════════════════
-     CONFIGURATION SCRIPT
-     Remplace SCRIPT_URL par l'URL
-     de ton Google Apps Script
-════════════════════════════ -->
-<script>
-const CONFIG = {
-  // 🔧 Colle ici l'URL de ton Google Apps Script après déploiement
-  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycby88lDIDtNNODvur5he230lwpPr6kI4jixYA9DEa_Ale4aesmuWjDM4jwB_rVKwzXqLUw/exec',
-
-  // Jours travaillés (0=dim, 1=lun, 2=mar, 3=mer, 4=jeu, 5=ven, 6=sam)
-  WORK_DAYS: [1, 2, 3, 4, 5, 6],
-
-  // Créneaux matin : 10h, 11h, 12h, 13h
-  MORNING_SLOTS: ['10:00','11:00','12:00','13:00'],
-
-  // Créneaux après-midi : 14h, 15h, 16h, 17h, 18h, 19h
-  AFTERNOON_SLOTS: ['14:00','15:00','16:00','17:00','18:00','19:00'],
-
-  SERVICES: [
-    {id:'prp-cheveux',    name:'PRP Cheveux',          duration:'60 min', price:'180 €'},
-    {id:'micro-needling', name:'Micro-needling',        duration:'60 min', price:'120 €'},
-    {id:'mesotherapie',   name:'Mésothérapie',          duration:'45 min', price:'95 €'},
-    {id:'soin-hydratant', name:'Soin hydratant',        duration:'60 min', price:'75 €'},
-    {id:'led',            name:'Luminothérapie LED',    duration:'30 min', price:'45 €'},
-  ]
-};
-</script>
-
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">Mia <span>Aesthetics</span></a>
-  <ul class="nav-links">
-    <li><a href="#prestations">Prestations</a></li>
-    <li><a href="#rdv">Rendez-vous</a></li>
-    <li><a href="#apropos">À propos</a></li>
-  </ul>
-  <a href="#rdv" class="btn-primary" style="font-size:12px;padding:10px 22px">Prendre RDV</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Institut de beauté médicale</div>
-    <h1 class="hero-title">L'excellence du soin,<br><em>au naturel</em></h1>
-    <p class="hero-desc">Des protocoles de médecine esthétique personnalisés — PRP, micro-needling, mésothérapie — pour révéler votre beauté naturelle.</p>
-    <div class="hero-actions">
-      <a href="#rdv" class="btn-primary">Prendre rendez-vous</a>
-      <a href="#prestations" class="btn-ghost">Nos soins</a>
-    </div>
-    <div class="hero-stats">
-      <div><div class="stat-num">500<span>+</span></div><div class="stat-label">Clientes satisfaites</div></div>
-      <div><div class="stat-num">5</div><div class="stat-label">Soins spécialisés</div></div>
-      <div><div class="stat-num">8<span>+</span></div><div class="stat-label">Ans d'expérience</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PRESTATIONS -->
-<section class="section section-alt" id="prestations">
-  <div class="section-header">
-    <div class="section-eyebrow">Nos soins</div>
-    <h2 class="section-title">Des <em>protocoles</em> sur mesure</h2>
-    <div class="divider"></div>
-  </div>
-  <div class="services-grid">
-    <div class="svc-card">
-      <div class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
-      <div class="svc-name">PRP Cheveux</div>
-      <div class="svc-desc">Plasma riche en plaquettes pour stimuler la repousse et renforcer le cheveu fragilisé.</div>
-      <div class="svc-duration">60 min · 180 €</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-      <div class="svc-name">Micro-needling</div>
-      <div class="svc-desc">Stimulation naturelle du collagène. Texture, éclat et fermeté améliorés durablement.</div>
-      <div class="svc-duration">60 min · 120 €</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg></div>
-      <div class="svc-name">Mésothérapie</div>
-      <div class="svc-desc">Micro-injections d'actifs ciblés pour revitaliser et redonner éclat au visage.</div>
-      <div class="svc-duration">45 min · 95 €</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><path d="M12 2C6 2 4 7 4 12a8 8 0 0016 0c0-5-2-10-8-10z"/></svg></div>
-      <div class="svc-name">Soin hydratant</div>
-      <div class="svc-desc">Protocole intensif à base d'acide hyaluronique pour une peau repulpée et lumineuse.</div>
-      <div class="svc-duration">60 min · 75 €</div>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9889E" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></div>
-      <div class="svc-name">LED / Luminothérapie</div>
-      <div class="svc-desc">Photobiomodulation pour traiter l'acné, stimuler le collagène et apaiser la peau.</div>
-      <div class="svc-duration">30 min · 45 €</div>
-    </div>
-  </div>
-</section>
-
-<!-- RÉSERVATION -->
-<section class="section" id="rdv">
-  <div class="section-header">
-    <div class="section-eyebrow">Réservation en ligne</div>
-    <h2 class="section-title">Choisissez votre <em>créneau</em></h2>
-    <div class="divider"></div>
-    <p style="font-size:14px;color:var(--gray-500);margin-top:1rem;font-weight:300">Les créneaux grisés sont déjà réservés. Cliquez sur un créneau disponible pour réserver.</p>
-  </div>
-
-  <div class="booking-wrap">
-
-
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem">
-      <div class="week-nav" style="margin:0">
-        <div class="week-label" id="week-label">Semaine du <em id="week-dates"></em></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="legend">
-          <div class="legend-item"><div class="legend-dot avail"></div>Disponible</div>
-          <div class="legend-item"><div class="legend-dot taken"></div>Réservé</div>
-          <div class="legend-item"><div class="legend-dot sel"></div>Sélectionné</div>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="brand">
+        <div class="brand-badge">M</div>
+        <div class="brand-text">
+          <strong>Mia Aesthetics</strong>
+          <span>Beauty Clinic</span>
         </div>
-        <div class="week-arrows">
-          <button class="week-arrow" id="btn-prev" onclick="changeWeek(-1)">&#8249;</button>
-          <button class="week-arrow" id="btn-next" onclick="changeWeek(1)">&#8250;</button>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#services">Prestations</a>
+        <a href="#booking">Réserver</a>
+        <a href="#footer">Contact</a>
+      </nav>
+
+      <a href="#booking" class="btn btn-primary">Prendre rendez-vous</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-card">
+          <div class="eyebrow">Réservation esthétique haut de gamme</div>
+          <h1>La beauté experte, <em>douce et moderne</em></h1>
+          <p class="hero-desc">
+            Réservez votre soin en quelques clics avec une expérience claire, fluide et rassurante.
+            Consultez les disponibilités en temps réel et confirmez votre rendez-vous instantanément.
+          </p>
+          <div class="hero-actions">
+            <a href="#booking" class="btn btn-primary">Voir les créneaux</a>
+            <a href="#services" class="btn btn-secondary">Découvrir les soins</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><strong>500+</strong><span>Clientes accompagnées</span></div>
+            <div class="stat"><strong>5</strong><span>Soins ciblés</span></div>
+            <div class="stat"><strong>8 ans</strong><span>D’expérience cumulée</span></div>
+          </div>
+        </div>
+
+        <aside class="hero-panel">
+          <div class="glass-block">
+            <div class="panel-title">Pourquoi réserver ici</div>
+            <div class="value-card">
+              <div class="value-item">
+                <div class="value-icon">✓</div>
+                <div>
+                  <strong>Disponibilités en temps réel</strong>
+                  <span>Les créneaux réservés sont automatiquement masqués après validation.</span>
+                </div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">✦</div>
+                <div>
+                  <strong>Parcours de réservation fluide</strong>
+                  <span>Choix du soin, créneau, confirmation et e-mail récapitulatif en quelques secondes.</span>
+                </div>
+              </div>
+              <div class="value-item">
+                <div class="value-icon">♡</div>
+                <div>
+                  <strong>Expérience premium</strong>
+                  <span>Design rassurant, lisible, mobile-first et orienté conversion.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-copy">
+            <small>Prestations</small>
+            <h2>Des soins pensés pour des résultats visibles</h2>
+            <p>Chaque protocole est présenté de façon claire pour aider la cliente à choisir rapidement, sans surcharge visuelle.</p>
+          </div>
+        </div>
+
+        <div class="services" id="services-grid"></div>
+      </div>
+    </section>
+
+    <section id="booking">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-copy">
+            <small>Réservation</small>
+            <h2>Choisissez votre soin, puis votre créneau</h2>
+            <p>Les disponibilités affichées proviennent directement du Google Apps Script. Les créneaux passés ou déjà réservés sont bloqués.</p>
+          </div>
+        </div>
+
+        <div class="booking-shell">
+          <aside class="booking-side">
+            <div class="side-title">1. Sélection du soin</div>
+            <div class="service-pills" id="service-pills"></div>
+            <div class="info-banner">
+              <strong>Conseil UX :</strong> la cliente choisit d’abord son soin, puis visualise immédiatement les créneaux libres de la semaine.
+            </div>
+          </aside>
+
+          <div class="booking-main">
+            <div class="booking-top">
+              <div>
+                <div class="week-title">Semaine du <em id="week-label"></em></div>
+                <div class="booking-sub" id="booking-subtext">Créneaux disponibles mis à jour en direct.</div>
+              </div>
+
+              <div class="booking-actions">
+                <div class="legend">
+                  <div class="legend-item"><span class="legend-dot available"></span>Disponible</div>
+                  <div class="legend-item"><span class="legend-dot selected"></span>Sélectionné</div>
+                  <div class="legend-item"><span class="legend-dot taken"></span>Réservé</div>
+                  <div class="legend-item"><span class="legend-dot past"></span>Passé</div>
+                </div>
+                <div class="nav-arrows">
+                  <button class="nav-btn" id="btn-prev" type="button" aria-label="Semaine précédente">‹</button>
+                  <button class="nav-btn" id="btn-next" type="button" aria-label="Semaine suivante">›</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="calendar" id="calendar"></div>
+            <div class="info-banner">
+              Une fois le rendez-vous confirmé, le créneau est sauvegardé côté Google Sheets et ne doit plus réapparaître au rechargement de la page.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <div>
+          <h3 id="modal-title">Confirmer votre rendez-vous</h3>
+          <p>Vérifiez le récapitulatif, complétez vos informations, puis validez votre réservation.</p>
+        </div>
+        <button class="modal-close" type="button" onclick="closeModal()">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="summary-card">
+          <h4>Récapitulatif</h4>
+          <div class="summary-list" id="modal-summary"></div>
+        </div>
+
+        <div class="form-card">
+          <h4>Informations cliente</h4>
+          <div class="form-grid">
+            <div class="field">
+              <label for="f-prenom">Prénom *</label>
+              <input id="f-prenom" type="text" placeholder="Sophie" autocomplete="given-name">
+            </div>
+            <div class="field">
+              <label for="f-nom">Nom *</label>
+              <input id="f-nom" type="text" placeholder="Martin" autocomplete="family-name">
+            </div>
+            <div class="field full">
+              <label for="f-email">E-mail *</label>
+              <input id="f-email" type="email" placeholder="sophie@email.com" autocomplete="email">
+            </div>
+            <div class="field full">
+              <label for="f-tel">Téléphone *</label>
+              <input id="f-tel" type="tel" placeholder="+33 6 00 00 00 00" autocomplete="tel">
+            </div>
+            <div class="field full">
+              <label for="f-notes">Notes / contre-indications</label>
+              <textarea id="f-notes" placeholder="Grossesse, allergies, traitements en cours…"></textarea>
+            </div>
+          </div>
+          <p class="form-note">Annulation gratuite jusqu’à 24h avant. Une confirmation e-mail est envoyée automatiquement après validation.</p>
+
+          <div class="modal-actions">
+            <button class="btn btn-secondary" type="button" onclick="closeModal()">Annuler</button>
+            <button class="btn btn-primary" type="button" id="btn-confirm" onclick="submitBooking()">Confirmer le RDV</button>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="week-grid" id="week-grid"></div>
   </div>
-</section>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Confirmer votre <em>RDV</em></div>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-recap" id="modal-recap"></div>
+  <div class="toast" id="toast"></div>
 
-      <div style="font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:8px">Choisir votre soin</div>
-      <div class="svc-select" id="svc-select"></div>
-
-      <div class="form-grid">
-        <div class="form-field"><label>Prénom *</label><input type="text" id="f-prenom" placeholder="Sophie" required></div>
-        <div class="form-field"><label>Nom *</label><input type="text" id="f-nom" placeholder="Martin" required></div>
-        <div class="form-field full"><label>E-mail *</label><input type="email" id="f-email" placeholder="sophie@email.com" required></div>
-        <div class="form-field full"><label>Téléphone *</label><input type="tel" id="f-tel" placeholder="+33 6 00 00 00 00" required></div>
-        <div class="form-field full"><label>Notes / contre-indications</label><textarea id="f-notes" placeholder="Grossesse, traitements en cours, allergies…"></textarea></div>
+  <footer class="footer" id="footer">
+    <div class="container footer-card">
+      <div class="footer-grid">
+        <div>
+          <h4>Mia Aesthetics</h4>
+          <p>Institut de beauté médicale spécialisé dans les soins régénératifs, l’éclat de la peau et la qualité de l’expérience cliente.</p>
+        </div>
+        <div>
+          <h4>Prestations</h4>
+          <ul>
+            <li>PRP Cheveux</li>
+            <li>Micro-needling</li>
+            <li>Mésothérapie</li>
+            <li>Soin hydratant</li>
+            <li>Luminothérapie LED</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Infos</h4>
+          <ul>
+            <li>Réservation en ligne</li>
+            <li>Confirmation par e-mail</li>
+            <li>Annulation jusqu’à 24h</li>
+            <li>Disponibilités mises à jour</li>
+          </ul>
+        </div>
       </div>
-
-      <div class="modal-actions">
-        <button class="modal-cancel-btn" onclick="closeModal()">Annuler</button>
-        <button class="modal-confirm" id="btn-confirm" onclick="submitBooking()">Confirmer →</button>
-      </div>
-      <p style="font-size:11px;color:var(--gray-500);text-align:center;margin-top:10px;line-height:1.6">Annulation gratuite jusqu'à 24h avant · Confirmation par e-mail immédiate</p>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-logo">Mia <span>Aesthetics</span></div>
-        <div class="footer-tagline">Institut de beauté médicale spécialisé en PRP, micro-needling et soins régénérateurs.</div>
-      </div>
-      <div class="footer-col">
-        <div class="footer-col-title">Soins</div>
-        <ul>
-          <li>PRP Cheveux</li><li>Micro-needling</li><li>Mésothérapie</li>
-          <li>Soins hydratants</li><li>Luminothérapie LED</li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <div class="footer-col-title">Institut</div>
-        <ul><li>À propos</li><li>Tarifs</li><li>Prendre RDV</li><li>Mentions légales</li></ul>
+      <div class="footer-bottom">
+        <span>© 2026 Mia Aesthetics</span>
+        <span>Design refondu pour une UX plus premium</span>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span class="footer-copy">© 2026 Mia Aesthetics · Tous droits réservés</span>
-      <span class="footer-copy">Fait avec <span style="color:var(--rose)">♥</span></span>
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<script>
-// ══════════════════════════════════════════
-// ÉTAT GLOBAL
-// ══════════════════════════════════════════
-let currentWeekOffset = 0;
-let bookedSlots = {};       // { 'YYYY-MM-DD': ['10:00','14:00', ...] }
-let selectedSlot = null;    // { date, time }
-let selectedService = CONFIG.SERVICES[0];
-let isLoading = false;
+  <script>
+    let currentWeekOffset = 0;
+    let bookedSlots = {};
+    let selectedSlot = null;
+    let selectedService = CONFIG.SERVICES[0];
+    let loadingWeek = false;
 
-const DAYS_FR = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-const MONTHS_FR = ['jan.','fév.','mar.','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.'];
-const ALL_SLOTS = [...CONFIG.MORNING_SLOTS, ...CONFIG.AFTERNOON_SLOTS];
+    const DAYS_FR = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+    const DAYS_LONG = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    const MONTHS_FR = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
 
-// ══════════════════════════════════════════
-// UTILITAIRES DATE
-// ══════════════════════════════════════════
-function getMonday(offset = 0) {
-  const now = new Date();
-  const day = now.getDay();
-  const diff = (day === 0 ? -6 : 1 - day);
-  const mon = new Date(now);
-  mon.setDate(now.getDate() + diff + offset * 7);
-  mon.setHours(0, 0, 0, 0);
-  return mon;
-}
-
-function dateKey(d) {
-  return d.toISOString().split('T')[0];
-}
-
-function formatDateFr(d) {
-  return d.getDate() + ' ' + MONTHS_FR[d.getMonth()];
-}
-
-function formatDateLong(d) {
-  return DAYS_FR[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS_FR[d.getMonth()] + ' ' + d.getFullYear();
-}
-
-function isPast(dateObj, time) {
-  const [h, m] = time.split(':').map(Number);
-  const slotTime = new Date(dateObj);
-  slotTime.setHours(h, m, 0, 0);
-  return slotTime < new Date();
-}
-
-// ══════════════════════════════════════════
-// CHARGEMENT DES RDV via JSONP
-// (contourne le blocage CORS de Google)
-// ══════════════════════════════════════════
-function loadBookings(weekStart) {
-  const end      = addDays(weekStart, 5);
-  const cbName   = 'mia_cb_' + Date.now();
-  const url      = `${CONFIG.SCRIPT_URL}?action=getBookings&start=${dateKey(weekStart)}&end=${dateKey(end)}&callback=${cbName}`;
-
-  // Crée la fonction callback globale avant d'injecter le script
-  window[cbName] = function(data) {
-    bookedSlots = data.booked || {};
-    renderGrid(weekStart);
-    // Nettoyage
-    delete window[cbName];
-    const tag = document.getElementById('jsonp-tag');
-    if (tag) tag.remove();
-  };
-
-  // Timeout de sécurité si le script ne répond pas
-  const timeout = setTimeout(() => {
-    if (window[cbName]) {
-      showToast('Chargement lent, réessayez dans un instant', 'error');
-      bookedSlots = {};
-      renderGrid(weekStart);
-      delete window[cbName];
+    function addDays(date, n){
+      const d = new Date(date);
+      d.setDate(d.getDate() + n);
+      return d;
     }
-  }, 8000);
 
-  // Injecte un tag <script> qui déclenche la requête
-  const old = document.getElementById('jsonp-tag');
-  if (old) old.remove();
-  const tag = document.createElement('script');
-  tag.id  = 'jsonp-tag';
-  tag.src = url;
-  tag.onerror = () => {
-    clearTimeout(timeout);
-    showToast('Erreur de chargement des disponibilités', 'error');
-    bookedSlots = {};
-    renderGrid(weekStart);
-    delete window[cbName];
-  };
-  document.head.appendChild(tag);
-}
+    function getMonday(offset = 0) {
+      const now = new Date();
+      const day = now.getDay();
+      const diff = (day === 0 ? -6 : 1 - day);
+      const monday = new Date(now);
+      monday.setDate(now.getDate() + diff + offset * 7);
+      monday.setHours(0,0,0,0);
+      return monday;
+    }
 
-function addDays(date, n) {
-  const d = new Date(date);
-  d.setDate(d.getDate() + n);
-  return d;
-}
+    function dateKey(date){
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
 
-// ══════════════════════════════════════════
-// RENDU DE LA GRILLE SEMAINE
-// ══════════════════════════════════════════
-function renderGrid(weekStart) {
-  const grid = document.getElementById('week-grid');
-  grid.innerHTML = '';
+    function formatShort(date){
+      return `${date.getDate()} ${MONTHS_FR[date.getMonth()].slice(0,3)}.`;
+    }
 
-  // En-tête coin vide
-  const corner = document.createElement('div');
-  corner.className = 'day-header corner';
-  grid.appendChild(corner);
+    function formatLong(date){
+      return `${DAYS_LONG[date.getDay()]} ${date.getDate()} ${MONTHS_FR[date.getMonth()]} ${date.getFullYear()}`;
+    }
 
-  // En-têtes jours (lun→sam)
-  const today = dateKey(new Date());
-  for (let i = 0; i < 6; i++) {
-    const d = addDays(weekStart, i);
-    const dKey = dateKey(d);
-    const hdr = document.createElement('div');
-    hdr.className = 'day-header' + (dKey === today ? ' today' : '');
-    hdr.innerHTML = `<div class="day-name">${DAYS_FR[d.getDay()]}</div><div class="day-date">${d.getDate()}</div>`;
-    grid.appendChild(hdr);
-  }
+    function isPast(dateObj, time){
+      const [h,m] = time.split(':').map(Number);
+      const dt = new Date(dateObj);
+      dt.setHours(h,m,0,0);
+      return dt.getTime() < Date.now();
+    }
 
-  // Créneaux matin
-  renderSlotRows(grid, weekStart, CONFIG.MORNING_SLOTS, today);
+    function renderServices(){
+      const grid = document.getElementById('services-grid');
+      grid.innerHTML = CONFIG.SERVICES.map(service => `
+        <article class="service-card">
+          <div class="service-icon">✦</div>
+          <h3>${service.name}</h3>
+          <p>${service.desc}</p>
+          <div class="service-meta">
+            <span>${service.duration}</span>
+            <span class="price-chip">${service.price}</span>
+          </div>
+        </article>
+      `).join('');
+    }
 
-  // Séparateur pause déj
-  const br = document.createElement('div');
-  br.className = 'break-row';
-  br.innerHTML = '<span class="break-label">— Pause déjeuner —</span>';
-  grid.appendChild(br);
+    function renderServiceSelector(){
+      const container = document.getElementById('service-pills');
+      container.innerHTML = CONFIG.SERVICES.map(service => `
+        <button type="button" class="service-pill ${service.id === selectedService.id ? 'active' : ''}" onclick="pickService('${service.id}')">
+          <div class="service-pill-row">
+            <strong>${service.name}</strong>
+            <span class="price-chip">${service.price}</span>
+          </div>
+          <small>${service.duration} · ${service.desc}</small>
+        </button>
+      `).join('');
+    }
 
-  // Créneaux après-midi
-  renderSlotRows(grid, weekStart, CONFIG.AFTERNOON_SLOTS, today);
-}
+    function updateWeekLabel(){
+      const monday = getMonday(currentWeekOffset);
+      const saturday = addDays(monday, 5);
+      document.getElementById('week-label').textContent = `${formatShort(monday)} — ${formatShort(saturday)} ${saturday.getFullYear()}`;
+      document.getElementById('btn-prev').disabled = currentWeekOffset <= 0;
+      document.getElementById('booking-subtext').textContent = `Soin sélectionné : ${selectedService.name} · ${selectedService.duration} · ${selectedService.price}`;
+    }
 
-function renderSlotRows(grid, weekStart, slots, today) {
-  slots.forEach(time => {
-    // Label heure
-    const lbl = document.createElement('div');
-    lbl.className = 'hour-label';
-    lbl.textContent = time;
-    grid.appendChild(lbl);
+    function changeWeek(direction){
+      currentWeekOffset += direction;
+      if (currentWeekOffset < 0) currentWeekOffset = 0;
+      selectedSlot = null;
+      initWeek();
+    }
 
-    // 6 cellules (lun→sam)
-    for (let i = 0; i < 6; i++) {
-      const d = addDays(weekStart, i);
-      const dKey = dateKey(d);
-      const cell = document.createElement('div');
-      cell.className = 'slot-cell';
+    function loadBookings(weekStart){
+      loadingWeek = true;
+      const end = addDays(weekStart, 5);
+      const callbackName = `mia_cb_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      const url = `${CONFIG.SCRIPT_URL}?action=getBookings&start=${dateKey(weekStart)}&end=${dateKey(end)}&ts=${Date.now()}&callback=${callbackName}`;
 
-      const btn = document.createElement('button');
-      btn.className = 'slot-btn';
+      window[callbackName] = function(data){
+        cleanup();
+        bookedSlots = (data && data.booked) ? data.booked : {};
+        loadingWeek = false;
+        renderCalendar(weekStart);
+      };
 
-      const past = isPast(d, time);
-      const taken = (bookedSlots[dKey] || []).includes(time);
-      const isSelected = selectedSlot && selectedSlot.date === dKey && selectedSlot.time === time;
+      const timeout = setTimeout(() => {
+        cleanup();
+        bookedSlots = {};
+        loadingWeek = false;
+        renderCalendar(weekStart);
+        showToast('Impossible de charger les disponibilités pour le moment.', 'error');
+      }, 8000);
 
-      if (past) {
-        btn.className += ' past';
-        btn.disabled = true;
-        btn.textContent = '—';
-      } else if (taken) {
-        btn.className += ' taken';
-        btn.disabled = true;
-        btn.textContent = time;
-      } else if (isSelected) {
-        btn.className += ' selected';
-        btn.textContent = time;
-      } else {
-        btn.textContent = time;
-        btn.onclick = () => selectSlot(dKey, time, d);
+      function cleanup(){
+        clearTimeout(timeout);
+        delete window[callbackName];
+        const old = document.getElementById(callbackName);
+        if (old) old.remove();
       }
 
-      cell.appendChild(btn);
-      grid.appendChild(cell);
+      const tag = document.createElement('script');
+      tag.id = callbackName;
+      tag.src = url;
+      tag.onerror = function(){
+        cleanup();
+        bookedSlots = {};
+        loadingWeek = false;
+        renderCalendar(weekStart);
+        showToast('Erreur réseau lors du chargement des créneaux.', 'error');
+      };
+      document.head.appendChild(tag);
     }
-  });
-}
 
-// ══════════════════════════════════════════
-// NAVIGATION SEMAINE
-// ══════════════════════════════════════════
-function changeWeek(dir) {
-  currentWeekOffset += dir;
-  document.getElementById('btn-prev').disabled = currentWeekOffset <= 0;
-  initWeek();
-}
+    function renderCalendar(weekStart){
+      const calendar = document.getElementById('calendar');
+      const todayKey = dateKey(new Date());
+      const slotsMorning = CONFIG.MORNING_SLOTS;
+      const slotsAfternoon = CONFIG.AFTERNOON_SLOTS;
 
-function initWeek() {
-  const mon = getMonday(currentWeekOffset);
-  const sat = addDays(mon, 5);
-  document.getElementById('week-dates').textContent = formatDateFr(mon) + ' – ' + formatDateFr(sat) + ' ' + sat.getFullYear();
-  document.getElementById('btn-prev').disabled = currentWeekOffset <= 0;
-  selectedSlot = null;
-  loadBookings(mon);
-}
+      let html = '<div class="calendar-head"><div class="corner"></div>';
+      for(let i = 0; i < 6; i++){
+        const date = addDays(weekStart, i);
+        const key = dateKey(date);
+        html += `
+          <div class="day-head ${key === todayKey ? 'today' : ''}">
+            <small>${DAYS_FR[date.getDay()]}</small>
+            <strong>${date.getDate()}</strong>
+          </div>
+        `;
+      }
+      html += '</div>';
 
-// ══════════════════════════════════════════
-// SÉLECTION CRÉNEAU → OUVRE MODAL
-// ══════════════════════════════════════════
-function selectSlot(dateStr, time, dateObj) {
-  selectedSlot = { date: dateStr, time, dateObj };
-  renderGrid(getMonday(currentWeekOffset));
-  openModal(dateObj, time);
-}
-
-// ══════════════════════════════════════════
-// MODAL
-// ══════════════════════════════════════════
-function openModal(dateObj, time) {
-  // Récap
-  document.getElementById('modal-recap').innerHTML = `
-    <div class="modal-recap-row"><span class="modal-recap-lbl">Date</span><span class="modal-recap-val">${formatDateLong(dateObj)}</span></div>
-    <div class="modal-recap-row"><span class="modal-recap-lbl">Heure</span><span class="modal-recap-val">${time}</span></div>
-    <div class="modal-recap-row" id="recap-svc-row"><span class="modal-recap-lbl">Soin</span><span class="modal-recap-val" id="recap-svc">${selectedService.name}</span></div>
-    <div class="modal-recap-row" id="recap-price-row"><span class="modal-recap-lbl">Tarif</span><span class="modal-recap-val" id="recap-price" style="color:var(--rose)">${selectedService.price}</span></div>
-  `;
-
-  // Sélecteur soins
-  const svcSel = document.getElementById('svc-select');
-  svcSel.innerHTML = CONFIG.SERVICES.map(s => `
-    <div class="svc-radio ${s.id === selectedService.id ? 'active' : ''}" onclick="pickService('${s.id}')">
-      <div class="svc-radio-left">
-        <div class="svc-dot"><div class="svc-dot-inner"></div></div>
-        <div><div class="svc-radio-name">${s.name}</div><div class="svc-radio-meta">${s.duration}</div></div>
-      </div>
-      <div class="svc-radio-price">${s.price}</div>
-    </div>
-  `).join('');
-
-  document.getElementById('modal').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
-  selectedSlot = null;
-  renderGrid(getMonday(currentWeekOffset));
-}
-
-function pickService(id) {
-  selectedService = CONFIG.SERVICES.find(s => s.id === id);
-  document.querySelectorAll('.svc-radio').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  document.getElementById('recap-svc').textContent = selectedService.name;
-  document.getElementById('recap-price').textContent = selectedService.price;
-}
-
-// ══════════════════════════════════════════
-// SOUMISSION DU RDV
-// ══════════════════════════════════════════
-async function submitBooking() {
-  const prenom = document.getElementById('f-prenom').value.trim();
-  const nom    = document.getElementById('f-nom').value.trim();
-  const email  = document.getElementById('f-email').value.trim();
-  const tel    = document.getElementById('f-tel').value.trim();
-  const notes  = document.getElementById('f-notes').value.trim();
-
-  if (!prenom || !nom || !email || !tel) {
-    showToast('Merci de remplir tous les champs obligatoires', 'error');
-    return;
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showToast('Adresse e-mail invalide', 'error');
-    return;
-  }
-
-  const btn = document.getElementById('btn-confirm');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Confirmation…';
-
-  const payload = {
-    action: 'book',
-    date: selectedSlot.date,
-    time: selectedSlot.time,
-    service: selectedService.name,
-    price: selectedService.price,
-    prenom, nom, email, tel, notes
-  };
-
-  // JSONP pour le POST aussi — contourne le CORS de Google
-  const cbName = 'mia_book_' + Date.now();
-  const params = new URLSearchParams({
-    action:  'book',
-    callback: cbName,
-    date:    payload.date,
-    time:    payload.time,
-    service: payload.service,
-    price:   payload.price,
-    prenom:  payload.prenom,
-    nom:     payload.nom,
-    email:   payload.email,
-    tel:     payload.tel,
-    notes:   payload.notes || ''
-  });
-
-  window[cbName] = function(data) {
-    delete window[cbName];
-    const tag = document.getElementById('jsonp-book-tag');
-    if (tag) tag.remove();
-    btn.disabled = false;
-    btn.textContent = 'Confirmer →';
-    if (data.success) {
-      if (!bookedSlots[selectedSlot.date]) bookedSlots[selectedSlot.date] = [];
-      bookedSlots[selectedSlot.date].push(selectedSlot.time);
-      closeModal();
-      showToast('✓ RDV confirmé ! Un e-mail vous a été envoyé.', 'success');
-      renderGrid(getMonday(currentWeekOffset));
-    } else {
-      showToast(data.error || 'Erreur lors de la réservation', 'error');
+      html += renderRows(weekStart, slotsMorning);
+      html += '<div class="break-row"><div class="break-pill">Pause déjeuner</div></div>';
+      html += renderRows(weekStart, slotsAfternoon);
+      calendar.innerHTML = html;
     }
-  };
 
-  // Timeout si le script ne répond pas
-  setTimeout(function() {
-    if (window[cbName]) {
-      delete window[cbName];
-      btn.disabled = false;
-      btn.textContent = 'Confirmer →';
-      showToast('Délai dépassé, veuillez réessayer', 'error');
+    function renderRows(weekStart, slots){
+      return slots.map(time => {
+        let row = `<div class="calendar-row"><div class="hour-cell">${time}</div>`;
+        for(let i = 0; i < 6; i++){
+          const dateObj = addDays(weekStart, i);
+          const key = dateKey(dateObj);
+          const taken = (bookedSlots[key] || []).includes(time);
+          const past = isPast(dateObj, time);
+          const selected = selectedSlot && selectedSlot.date === key && selectedSlot.time === time;
+
+          let cls = 'slot-btn';
+          let disabled = '';
+          let label = time;
+          let onClick = `onclick="selectSlot('${key}','${time}')"`;
+
+          if (past) {
+            cls += ' past';
+            disabled = 'disabled';
+            label = 'Passé';
+            onClick = '';
+          } else if (taken) {
+            cls += ' taken';
+            disabled = 'disabled';
+            label = 'Réservé';
+            onClick = '';
+          } else if (selected) {
+            cls += ' selected';
+          }
+
+          row += `<div class="slot-wrap"><button type="button" class="${cls}" ${disabled} ${onClick}>${label}</button></div>`;
+        }
+        row += '</div>';
+        return row;
+      }).join('');
     }
-  }, 10000);
 
-  const oldTag = document.getElementById('jsonp-book-tag');
-  if (oldTag) oldTag.remove();
-  const bookTag = document.createElement('script');
-  bookTag.id  = 'jsonp-book-tag';
-  bookTag.src = CONFIG.SCRIPT_URL + '?' + params.toString();
-  bookTag.onerror = function() {
-    delete window[cbName];
-    btn.disabled = false;
-    btn.textContent = 'Confirmer →';
-    showToast('Erreur réseau, veuillez réessayer', 'error');
-  };
-  document.head.appendChild(bookTag);
-}
+    function pickService(id){
+      selectedService = CONFIG.SERVICES.find(s => s.id === id) || CONFIG.SERVICES[0];
+      renderServiceSelector();
+      updateWeekLabel();
+    }
 
-// ══════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════
-function showToast(msg, type = '') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + type;
-  setTimeout(() => t.classList.add('show'), 10);
-  setTimeout(() => t.classList.remove('show'), 4000);
-}
+    function selectSlot(date, time){
+      const dateObj = new Date(`${date}T12:00:00`);
+      selectedSlot = { date, time, dateObj };
+      renderCalendar(getMonday(currentWeekOffset));
+      openModal();
+    }
 
-// ══════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════
-document.getElementById('btn-prev').disabled = true;
-initWeek();
-</script>
+    function openModal(){
+      if(!selectedSlot) return;
+      const summary = document.getElementById('modal-summary');
+      summary.innerHTML = `
+        <div class="summary-item"><span>Soin</span><strong>${selectedService.name}</strong></div>
+        <div class="summary-item"><span>Durée</span><strong>${selectedService.duration}</strong></div>
+        <div class="summary-item"><span>Tarif</span><strong>${selectedService.price}</strong></div>
+        <div class="summary-item"><span>Date</span><strong>${formatLong(selectedSlot.dateObj)}</strong></div>
+        <div class="summary-item"><span>Heure</span><strong>${selectedSlot.time}</strong></div>
+      `;
+      document.getElementById('modal').classList.add('open');
+    }
+
+    function closeModal(){
+      document.getElementById('modal').classList.remove('open');
+      selectedSlot = null;
+      renderCalendar(getMonday(currentWeekOffset));
+    }
+
+    function showToast(message, type=''){
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = `toast ${type}`;
+      requestAnimationFrame(() => toast.classList.add('show'));
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => toast.classList.remove('show'), 3800);
+    }
+
+    async function submitBooking(){
+      if(!selectedSlot) return;
+
+      const prenom = document.getElementById('f-prenom').value.trim();
+      const nom = document.getElementById('f-nom').value.trim();
+      const email = document.getElementById('f-email').value.trim();
+      const tel = document.getElementById('f-tel').value.trim();
+      const notes = document.getElementById('f-notes').value.trim();
+
+      if(!prenom || !nom || !email || !tel){
+        showToast('Merci de remplir les champs obligatoires.', 'error');
+        return;
+      }
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        showToast('Adresse e-mail invalide.', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('btn-confirm');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Confirmation...';
+
+      const callbackName = `mia_book_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+      const params = new URLSearchParams({
+        action:'book',
+        callback:callbackName,
+        ts:String(Date.now()),
+        date:selectedSlot.date,
+        time:selectedSlot.time,
+        service:selectedService.name,
+        price:selectedService.price,
+        prenom,
+        nom,
+        email,
+        tel,
+        notes
+      });
+
+      window[callbackName] = function(data){
+        cleanup();
+        btn.disabled = false;
+        btn.textContent = 'Confirmer le RDV';
+
+        if(data && data.success){
+          closeModal();
+          showToast('Rendez-vous confirmé. Un e-mail vient d’être envoyé.', 'success');
+          loadBookings(getMonday(currentWeekOffset));
+          return;
+        }
+        showToast((data && data.error) || 'Impossible de valider la réservation.', 'error');
+        loadBookings(getMonday(currentWeekOffset));
+      };
+
+      const timeout = setTimeout(() => {
+        cleanup();
+        btn.disabled = false;
+        btn.textContent = 'Confirmer le RDV';
+        showToast('Délai dépassé. Merci de réessayer.', 'error');
+      }, 10000);
+
+      function cleanup(){
+        clearTimeout(timeout);
+        delete window[callbackName];
+        const old = document.getElementById(callbackName);
+        if(old) old.remove();
+      }
+
+      const tag = document.createElement('script');
+      tag.id = callbackName;
+      tag.src = `${CONFIG.SCRIPT_URL}?${params.toString()}`;
+      tag.onerror = function(){
+        cleanup();
+        btn.disabled = false;
+        btn.textContent = 'Confirmer le RDV';
+        showToast('Erreur réseau pendant la réservation.', 'error');
+      };
+      document.head.appendChild(tag);
+    }
+
+    function initWeek(){
+      updateWeekLabel();
+      loadBookings(getMonday(currentWeekOffset));
+    }
+
+    document.getElementById('btn-prev').addEventListener('click', () => changeWeek(-1));
+    document.getElementById('btn-next').addEventListener('click', () => changeWeek(1));
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if(e.target.id === 'modal') closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') closeModal();
+    });
+
+    renderServices();
+    renderServiceSelector();
+    initWeek();
+  </script>
 </body>
 </html>
