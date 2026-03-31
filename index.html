@@ -191,9 +191,6 @@ footer{background:var(--gray-900);color:white;padding:4rem 2rem 2rem}
 @media(max-width:700px){.footer-grid{grid-template-columns:1fr}}
 
 /* Setup banner */
-.setup-banner{background:#FAEEDA;border:1px solid #FAC775;border-radius:4px;padding:14px 20px;margin-bottom:1.5rem;font-size:13px;color:#633806;line-height:1.7}
-.setup-banner strong{font-weight:500;color:#412402}
-.setup-banner code{background:rgba(0,0,0,.08);padding:1px 6px;border-radius:3px;font-family:monospace;font-size:12px}
 </style>
 </head>
 <body>
@@ -206,7 +203,7 @@ footer{background:var(--gray-900);color:white;padding:4rem 2rem 2rem}
 <script>
 const CONFIG = {
   // 🔧 Colle ici l'URL de ton Google Apps Script après déploiement
-  SCRIPT_URL: 'COLLE_TON_URL_ICI',
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycby88lDIDtNNODvur5he230lwpPr6kI4jixYA9DEa_Ale4aesmuWjDM4jwB_rVKwzXqLUw/exec',
 
   // Jours travaillés (0=dim, 1=lun, 2=mar, 3=mer, 4=jeu, 5=ven, 6=sam)
   WORK_DAYS: [1, 2, 3, 4, 5, 6],
@@ -308,11 +305,6 @@ const CONFIG = {
 
   <div class="booking-wrap">
 
-    <!-- Bannière setup (visible uniquement si l'URL n'est pas configurée) -->
-    <div class="setup-banner" id="setup-banner" style="display:none">
-      <strong>⚙️ Configuration requise :</strong> remplace <code>COLLE_TON_URL_ICI</code> dans le code par l'URL de ton Google Apps Script.<br>
-      Consulte le fichier <strong>google-apps-script.js</strong> fourni avec ce site pour les instructions complètes.
-    </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem">
       <div class="week-nav" style="margin:0">
@@ -446,13 +438,6 @@ function isPast(dateObj, time) {
 // (contourne le blocage CORS de Google)
 // ══════════════════════════════════════════
 function loadBookings(weekStart) {
-  if (CONFIG.SCRIPT_URL === 'COLLE_TON_URL_ICI') {
-    document.getElementById('setup-banner').style.display = 'block';
-    bookedSlots = {};
-    renderGrid(weekStart);
-    return;
-  }
-
   const end      = addDays(weekStart, 5);
   const cbName   = 'mia_cb_' + Date.now();
   const url      = `${CONFIG.SCRIPT_URL}?action=getBookings&start=${dateKey(weekStart)}&end=${dateKey(end)}&callback=${cbName}`;
@@ -679,12 +664,28 @@ async function submitBooking() {
     prenom, nom, email, tel, notes
   };
 
-  try {
-    const res = await fetch(CONFIG.SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json();
+  // JSONP pour le POST aussi — contourne le CORS de Google
+  const cbName = 'mia_book_' + Date.now();
+  const params = new URLSearchParams({
+    action:  'book',
+    callback: cbName,
+    date:    payload.date,
+    time:    payload.time,
+    service: payload.service,
+    price:   payload.price,
+    prenom:  payload.prenom,
+    nom:     payload.nom,
+    email:   payload.email,
+    tel:     payload.tel,
+    notes:   payload.notes || ''
+  });
+
+  window[cbName] = function(data) {
+    delete window[cbName];
+    const tag = document.getElementById('jsonp-book-tag');
+    if (tag) tag.remove();
+    btn.disabled = false;
+    btn.textContent = 'Confirmer →';
     if (data.success) {
       if (!bookedSlots[selectedSlot.date]) bookedSlots[selectedSlot.date] = [];
       bookedSlots[selectedSlot.date].push(selectedSlot.time);
@@ -694,12 +695,30 @@ async function submitBooking() {
     } else {
       showToast(data.error || 'Erreur lors de la réservation', 'error');
     }
-  } catch(e) {
-    showToast('Erreur réseau, veuillez réessayer', 'error');
-  } finally {
+  };
+
+  // Timeout si le script ne répond pas
+  setTimeout(function() {
+    if (window[cbName]) {
+      delete window[cbName];
+      btn.disabled = false;
+      btn.textContent = 'Confirmer →';
+      showToast('Délai dépassé, veuillez réessayer', 'error');
+    }
+  }, 10000);
+
+  const oldTag = document.getElementById('jsonp-book-tag');
+  if (oldTag) oldTag.remove();
+  const bookTag = document.createElement('script');
+  bookTag.id  = 'jsonp-book-tag';
+  bookTag.src = CONFIG.SCRIPT_URL + '?' + params.toString();
+  bookTag.onerror = function() {
+    delete window[cbName];
     btn.disabled = false;
     btn.textContent = 'Confirmer →';
-  }
+    showToast('Erreur réseau, veuillez réessayer', 'error');
+  };
+  document.head.appendChild(bookTag);
 }
 
 // ══════════════════════════════════════════
