@@ -308,7 +308,7 @@ const CONFIG = {
 
   <div class="booking-wrap">
 
-    
+
 
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem">
       <div class="week-nav" style="margin:0">
@@ -438,32 +438,55 @@ function isPast(dateObj, time) {
 }
 
 // ══════════════════════════════════════════
-// CHARGEMENT DES RDV (Google Apps Script)
+// CHARGEMENT DES RDV via JSONP
+// (contourne le blocage CORS de Google)
 // ══════════════════════════════════════════
-async function loadBookings(weekStart) {
-  if (CONFIG.SCRIPT_URL === 'COLLE_TON_URL_ICI') {
+function loadBookings(weekStart) {
+  if (CONFIG.SCRIPT_URL === 'https://script.google.com/macros/s/AKfycby88lDIDtNNODvur5he230lwpPr6kI4jixYA9DEa_Ale4aesmuWjDM4jwB_rVKwzXqLUw/exec') {
     document.getElementById('setup-banner').style.display = 'block';
-    // Mode démo : simule quelques créneaux pris
-    bookedSlots = {
-      [dateKey(addDays(weekStart, 0))]: ['10:00', '14:00'],
-      [dateKey(addDays(weekStart, 1))]: ['11:00', '15:00', '16:00'],
-      [dateKey(addDays(weekStart, 2))]: ['10:00'],
-      [dateKey(addDays(weekStart, 4))]: ['14:00', '17:00'],
-    };
+    bookedSlots = {};
     renderGrid(weekStart);
     return;
   }
-  try {
-    const end = addDays(weekStart, 5);
-    const url = `${CONFIG.SCRIPT_URL}?action=getBookings&start=${dateKey(weekStart)}&end=${dateKey(end)}`;
-    const res = await fetch(url);
-    const data = await res.json();
+
+  const end      = addDays(weekStart, 5);
+  const cbName   = 'mia_cb_' + Date.now();
+  const url      = `${CONFIG.SCRIPT_URL}?action=getBookings&start=${dateKey(weekStart)}&end=${dateKey(end)}&callback=${cbName}`;
+
+  // Crée la fonction callback globale avant d'injecter le script
+  window[cbName] = function(data) {
     bookedSlots = data.booked || {};
     renderGrid(weekStart);
-  } catch(e) {
+    // Nettoyage
+    delete window[cbName];
+    const tag = document.getElementById('jsonp-tag');
+    if (tag) tag.remove();
+  };
+
+  // Timeout de sécurité si le script ne répond pas
+  const timeout = setTimeout(() => {
+    if (window[cbName]) {
+      showToast('Chargement lent, réessayez dans un instant', 'error');
+      bookedSlots = {};
+      renderGrid(weekStart);
+      delete window[cbName];
+    }
+  }, 8000);
+
+  // Injecte un tag <script> qui déclenche la requête
+  const old = document.getElementById('jsonp-tag');
+  if (old) old.remove();
+  const tag = document.createElement('script');
+  tag.id  = 'jsonp-tag';
+  tag.src = url;
+  tag.onerror = () => {
+    clearTimeout(timeout);
     showToast('Erreur de chargement des disponibilités', 'error');
+    bookedSlots = {};
     renderGrid(weekStart);
-  }
+    delete window[cbName];
+  };
+  document.head.appendChild(tag);
 }
 
 function addDays(date, n) {
@@ -652,7 +675,7 @@ async function submitBooking() {
     prenom, nom, email, tel, notes
   };
 
-  if (CONFIG.SCRIPT_URL === 'COLLE_TON_URL_ICI') {
+  if (CONFIG.SCRIPT_URL === 'https://script.google.com/macros/s/AKfycby88lDIDtNNODvur5he230lwpPr6kI4jixYA9DEa_Ale4aesmuWjDM4jwB_rVKwzXqLUw/exec') {
     // Mode démo
     await new Promise(r => setTimeout(r, 1200));
     if (!bookedSlots[selectedSlot.date]) bookedSlots[selectedSlot.date] = [];
