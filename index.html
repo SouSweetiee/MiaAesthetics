@@ -206,7 +206,7 @@ footer{background:var(--gray-900);color:white;padding:4rem 2rem 2rem}
 <script>
 const CONFIG = {
   // 🔧 Colle ici l'URL de ton Google Apps Script après déploiement
-  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycby88lDIDtNNODvur5he230lwpPr6kI4jixYA9DEa_Ale4aesmuWjDM4jwB_rVKwzXqLUw/exec',
+  SCRIPT_URL: 'COLLE_TON_URL_ICI',
 
   // Jours travaillés (0=dim, 1=lun, 2=mar, 3=mer, 4=jeu, 5=ven, 6=sam)
   WORK_DAYS: [1, 2, 3, 4, 5, 6],
@@ -308,7 +308,11 @@ const CONFIG = {
 
   <div class="booking-wrap">
 
-
+    <!-- Bannière setup (visible uniquement si l'URL n'est pas configurée) -->
+    <div class="setup-banner" id="setup-banner" style="display:none">
+      <strong>⚙️ Configuration requise :</strong> remplace <code>COLLE_TON_URL_ICI</code> dans le code par l'URL de ton Google Apps Script.<br>
+      Consulte le fichier <strong>google-apps-script.js</strong> fourni avec ce site pour les instructions complètes.
+    </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1rem">
       <div class="week-nav" style="margin:0">
@@ -442,7 +446,7 @@ function isPast(dateObj, time) {
 // (contourne le blocage CORS de Google)
 // ══════════════════════════════════════════
 function loadBookings(weekStart) {
-  if (CONFIG.SCRIPT_URL === 'https://script.google.com/macros/s/AKfycby88lDIDtNNODvur5he230lwpPr6kI4jixYA9DEa_Ale4aesmuWjDM4jwB_rVKwzXqLUw/exec') {
+  if (CONFIG.SCRIPT_URL === 'COLLE_TON_URL_ICI') {
     document.getElementById('setup-banner').style.display = 'block';
     bookedSlots = {};
     renderGrid(weekStart);
@@ -674,19 +678,6 @@ async function submitBooking() {
     price: selectedService.price,
     prenom, nom, email, tel, notes
   };
-
-  if (CONFIG.SCRIPT_URL === 'https://script.google.com/macros/s/AKfycby88lDIDtNNODvur5he230lwpPr6kI4jixYA9DEa_Ale4aesmuWjDM4jwB_rVKwzXqLUw/exec') {
-    // Mode démo
-    await new Promise(r => setTimeout(r, 1200));
-    if (!bookedSlots[selectedSlot.date]) bookedSlots[selectedSlot.date] = [];
-    bookedSlots[selectedSlot.date].push(selectedSlot.time);
-    closeModal();
-    showToast('✓ RDV confirmé ! (mode démo)', 'success');
-    btn.disabled = false;
-    btn.textContent = 'Confirmer →';
-    renderGrid(getMonday(currentWeekOffset));
-    return;
-  }
 
   try {
     const res = await fetch(CONFIG.SCRIPT_URL, {
